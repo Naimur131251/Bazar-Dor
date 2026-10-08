@@ -1,27 +1,29 @@
 import Image from "next/image";
+import NavLinks from "./NavLinks";
+import CurrentDate from "./CurrentDate";
+import Link from "next/link";
 
 const Header = () => {
-  const date = new Date().toLocaleDateString("bn-BD", {
-    dateStyle: "full",
-  });
-
   return (
     <header className="mx-auto container px-4 py-4 bg-white">
       <div className="flex items-center justify-between pb-4">
         <div className="flex items-center gap-3">
-          <div className="overflow-hidden rounded-xl bg-[#05893E] p-2 flex items-center justify-center">
-            <Image
-              src="/logo-icon.png"
-              alt="বাজার দর লোগো"
-              width={32}
-              height={32}
-              className="object-contain"
-            />
-          </div>
-
+          <Link href="/">
+            <div className="overflow-hidden rounded-xl bg-[#05893E] p-2 flex items-center justify-center">
+              <Image
+                src="/logo-icon.png"
+                alt="বাজার দর লোগো"
+                width={32}
+                height={32}
+                className="object-contain"
+              />
+            </div>
+          </Link>
           <div className="flex flex-col">
             <span className="text-xl font-bold">বাজার দর</span>
-            <span className="text-xs text-neutral-500 mt-0.5">{date}</span>
+            <span className="text-xs text-neutral-500 mt-0.5">
+              <CurrentDate />{" "}
+            </span>
           </div>
         </div>
 
@@ -41,13 +43,7 @@ const Header = () => {
         </div>
       </div>
 
-      <nav className="mt-4 flex gap-5">
-        <span>a</span>
-        <span>b</span>
-        <span>c</span>
-        <span>d</span>
-        <span>e</span>
-      </nav>
+      <NavLinks />
     </header>
   );
 };
