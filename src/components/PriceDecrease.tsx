@@ -14,7 +14,7 @@ interface IProduct {
   };
 }
 
-const PriceIncrease = () => {
+const PriceDecrease = () => {
   const [products, setProducts] = useState<IProduct[]>([]);
 
   useEffect(() => {
@@ -25,24 +25,24 @@ const PriceIncrease = () => {
 
       const data: IProduct[] = await response.json();
 
-      const increasedProducts = data
-        .filter((product) => product.change.dir === "up")
+      const decreasedProducts = data
+        .filter((product) => product.change.dir === "down")
         .sort((a, b) => b.change.pct - a.change.pct)
         .slice(0, 6);
 
-      setProducts(increasedProducts);
+      setProducts(decreasedProducts);
     };
 
     fetchProducts();
   }, []);
 
   return (
-    <section className="container mx-auto rounded-xl">
+    <section className="container mx-auto rounded-xl mt-10">
       {/* Header */}
       <div className="mb-3 flex items-center gap-2">
-        <span className="text-xl text-red-500">🔺</span>
+        <span className="text-xl text-red-500">🔻</span>
 
-        <h2 className="text-xl font-bold text-gray-800">আজ দাম বেড়েছে</h2>
+        <h2 className="text-xl font-bold text-gray-800">আজ দাম কমেছে</h2>
       </div>
 
       {/* Products */}
@@ -55,4 +55,4 @@ const PriceIncrease = () => {
   );
 };
 
-export default PriceIncrease;
+export default PriceDecrease;

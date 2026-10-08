@@ -1,4 +1,5 @@
 import Banner from "@/components/Banner";
+import PriceDecrease from "@/components/PriceDecrease";
 import PriceIncrease from "@/components/PriceIncrease";
 
 export default function Home() {
@@ -6,6 +7,7 @@ export default function Home() {
     <div className="container mx-auto">
       <Banner />
       <PriceIncrease />
+      <PriceDecrease />
     </div>
   );
 }

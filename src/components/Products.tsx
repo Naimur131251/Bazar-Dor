@@ -1,4 +1,3 @@
-import React from "react";
 
 const Products = ({
   product,
@@ -47,7 +46,7 @@ const Products = ({
 
         {/* Increase Percentage */}
         <div className="flex items-center gap-1 rounded-md bg-red-50 px-2.5 py-1 text-xs font-semibold text-red-600">
-          <span>🔺</span>
+          {product.change.dir == "up" ? <span>🔺</span> : <span>🔻</span> }
           <span>{product.change.pct}%</span>
         </div>
       </div>
