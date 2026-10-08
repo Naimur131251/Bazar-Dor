@@ -34,7 +34,7 @@ const Marquee = async () => {
 
   return (
     <div>
-      <div>
+      <div className="bg-white">
         <MarqueeText className="py-1" direction="right" duration={10}>
           {headlines.map((h) => (
             <Link className="mr-9 flex gap-2" href={`/news/${h.id}`} key={h.id}>

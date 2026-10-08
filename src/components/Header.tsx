@@ -5,8 +5,8 @@ import Link from "next/link";
 
 const Header = () => {
   return (
-    <header className="mx-auto container px-4 py-4 bg-white">
-      <div className="flex items-center justify-between pb-4">
+    <header className="px-4 py-4 bg-white">
+      <div className="flex items-center justify-between pb-4 mx-auto container">
         <div className="flex items-center gap-3">
           <Link href="/">
             <div className="overflow-hidden rounded-xl bg-[#05893E] p-2 flex items-center justify-center">
