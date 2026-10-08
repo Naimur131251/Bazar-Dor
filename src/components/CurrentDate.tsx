@@ -6,11 +6,15 @@ const CurrentDate = () => {
   const [date, setDate] = useState("");
 
   useEffect(() => {
-    const today = new Date().toLocaleDateString("bn-BD", {
-      dateStyle: "full",
-    });
+    const timer = setTimeout(() => {
+      const today = new Date().toLocaleDateString("bn-BD", {
+        dateStyle: "full",
+      });
 
-    setDate(today);
+      setDate(today);
+    }, 0);
+
+    return () => clearTimeout(timer);
   }, []);
 
   return <span>{date}</span>;

@@ -41,7 +41,7 @@ const Marquee = async () => {
               <span>{h.image}</span>
               <span>{h.nameBn}</span>
               <span>{toBanglaNumber(h.today)} টাকা/কেজি</span>
-              <span>{h.change.dir}</span>
+              <span>{h.change.dir === "up" ? "🔺" : "🔻"}</span>
               <span>{toBanglaNumber(h.change.pct)}%</span>
             </Link>
           ))}
