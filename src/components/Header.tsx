@@ -27,8 +27,8 @@ const Header = () => {
           </div>
         </div>
 
-        <div className="flex items-center gap-2 cursor-pointer">
-          <div className="relative w-9 h-9 rounded-full overflow-hidden border border-neutral-200">
+        <div className="flex items-center gap-2 cursor-pointer text-sm">
+          {/* <div className="relative w-9 h-9 rounded-full overflow-hidden border border-neutral-200">
             <Image
               src="/profile.jpg"
               alt="Rezwan"
@@ -39,7 +39,9 @@ const Header = () => {
           <div className="flex items-center gap-1 text-sm font-medium text-neutral-700">
             <span>Rezwan </span>
             <span className="text-[5px]">🔻</span>
-          </div>
+          </div> */}
+          <Link href="\">সাইন ইন</Link>
+          <Link href="\sign-up" className="px-3.5 py-2 rounded-xl bg-[#05893E] text-white">সাইন আপ</Link>
         </div>
       </div>
 
