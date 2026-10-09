@@ -2,8 +2,14 @@ import { betterAuth } from "better-auth";
 import { MongoClient } from "mongodb";
 import { mongodbAdapter } from "@better-auth/mongo-adapter";
 
-const client = new MongoClient(process.env.BETTER_AUTH_DB_URI!);
-const db = client.db('bazar-dor-auth-db');
+const uri = process.env.BETTER_AUTH_DB_URI;
+
+if (!uri) {
+  throw new Error("BETTER_AUTH_DB_URI is not configured");
+}
+
+const client = new MongoClient(uri);
+const db = client.db("bazar-dor-auth-db");
 
 export const auth = betterAuth({
   emailAndPassword: {
