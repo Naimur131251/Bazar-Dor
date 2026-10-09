@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 interface ICategoryPage {
   categoryId: string;
 }
@@ -60,7 +62,11 @@ const CategoryPage = async ({ params }: { params: Promise<ICategoryPage> }) => {
       </p>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {products.map((product: ICategoryProduct) => (
-          <div key={product.id} className="rounded-xl bg-white p-4">
+          <Link
+            href={`/productDetails/${product.id}`}
+            key={product.id}
+            className="rounded-xl bg-white p-4"
+          >
             <div className="flex items-center gap-2">
               <div className="bg-[#f7f7f7] rounded-xl text-2xl p-1">
                 {product.categoryIcon}
@@ -88,7 +94,7 @@ const CategoryPage = async ({ params }: { params: Promise<ICategoryPage> }) => {
                 {product.change.pct}%
               </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </main>
