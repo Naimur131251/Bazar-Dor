@@ -30,16 +30,18 @@ export default function Basic() {
       alert("পাসওয়ার্ড দুটি মিলেনি!");
       return;
     }
-    console.log({
-      name,
-      email,
-      password,
-    });
+    
     const { data: resData, error } = await signUp.email({
       name,
       email,
       password,
       callbackURL: "/",
+    });
+
+    console.log({
+      name,
+      email,
+      password,
     });
 
     if (error) {
