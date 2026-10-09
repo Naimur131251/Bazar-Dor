@@ -1,28 +1,37 @@
+
 import Link from "next/link";
+import { Suspense } from "react";
 
 interface ICategoryPage {
   categoryId: string;
 }
 
 interface ICategoryProduct {
-  id: string;
+  id: number;
+  slug: string;
   nameBn?: string;
   productNameBn?: string;
+  categoryNameBn?: string;
+  categoryIcon?: string;
+  image?: string;
+  unit?: string;
   today?: number;
   todayPrice?: number;
-  categoryIcon?: string;
-  change: {
-    dir: string;
+  change?: {
+    dir: "up" | "down" | "same";
     pct: number;
   };
 }
 
-const CategoryPage = async ({ params }: { params: Promise<ICategoryPage> }) => {
-  const { categoryId } = await params;
+const toBanglaNumber = (value?: number) => {
+  return value?.toLocaleString("bn-BD") ?? "—";
+};
+
+async function CategoryContent({ categoryId }: ICategoryPage) {
   const res = await fetch(
     `https://api.api-store.workers.dev/api/bazardor/products?category=${encodeURIComponent(categoryId)}`,
     {
-      cache: "force-cache",
+      next: { revalidate: 3600 },
     },
   );
 
@@ -31,74 +40,166 @@ const CategoryPage = async ({ params }: { params: Promise<ICategoryPage> }) => {
   }
 
   const data = await res.json();
-  const productCount = data.length;
 
-  const products = Array.isArray(data)
+  const products: ICategoryProduct[] = Array.isArray(data)
     ? data
     : (data.products ?? data.data ?? []);
 
-  const toBanglaNumber = (value?: number) => {
-    return value?.toLocaleString("bn-BD") ?? "—";
-  };
+  const firstProduct = products[0];
+
   return (
-    <main className="container mx-auto p-6">
-      <div className="bg-white flex gap-2 items-center p-5 rounded-2xl">
-        <div className="text-4xl">{data[0].categoryIcon}</div>
-        <div className="flex flex-col">
-          <h1 className="text-2xl font-bold">{data[0].categoryNameBn}</h1>
-          <p className="text-neutral-500">
-            {toBanglaNumber(productCount)}টি পণ্যের আজকের দাম ও পরিবর্তন
+    <main className="container mx-auto p-4 sm:p-6">
+      {/* Category Header */}
+      <section className="flex items-center gap-3 rounded-2xl bg-white p-5">
+        <div className="text-4xl">
+          {firstProduct?.categoryIcon ?? "🛒"}
+        </div>
+
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">
+            {firstProduct?.categoryNameBn ?? categoryId}
+          </h1>
+
+          <p className="mt-1 text-sm text-neutral-500">
+            {toBanglaNumber(products.length)}টি পণ্যের আজকের দাম ও পরিবর্তন
           </p>
         </div>
+      </section>
+
+      {/* Sorting */}
+      <div className="my-7 flex items-center justify-end gap-2 rounded-2xl bg-white p-5">
+        <span className="text-sm text-neutral-600">সাজান</span>
+
+        <span className="rounded-lg border border-neutral-300 px-3 py-1 text-sm">
+          ডিফল্ট
+        </span>
       </div>
 
-      <div className="bg-white flex justify-end items-center gap-2 p-5 rounded-2xl my-7">
-        <span>সাজান</span>
-        <span className="border border-neutral-500 rounded-lg px-3 py-1">{`ডিফল্ট >`}</span>
-      </div>
-
-      <p className="text-neutral-500 mb-7">
-        মোট {toBanglaNumber(productCount)}টি পণ্য দেখানো হচ্ছে
+      {/* Product Count */}
+      <p className="mb-5 text-sm text-neutral-500">
+        মোট {toBanglaNumber(products.length)}টি পণ্য দেখানো হচ্ছে
       </p>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {products.map((product: ICategoryProduct) => (
-          <Link
-            href={`/productDetails/${product.id}`}
-            key={product.id}
-            className="rounded-xl bg-white p-4"
-          >
-            <div className="flex items-center gap-2">
-              <div className="bg-[#f7f7f7] rounded-xl text-2xl p-1">
-                {product.categoryIcon}
-              </div>
-              <div>
-                <h2 className="font-bold">
-                  {product.productNameBn ?? product.nameBn}
-                </h2>
-                <p className="text-neutral-500">প্রতি কেজি</p>
-              </div>
-            </div>
 
-            <div className="flex justify-between items-end mt-2">
-              <div>
-                <div className="text-neutral-500">আজকের দাম</div>
-                <div>
-                  <span className="font-bold">
-                    {toBanglaNumber(product.today)}
-                  </span>{" "}
-                  টাকা
+      {/* Products */}
+      {products.length === 0 ? (
+        <div className="rounded-xl bg-white p-8 text-center text-neutral-500">
+          এই বিভাগে কোনো পণ্য পাওয়া যায়নি।
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {products.map((product) => {
+            const direction = product.change?.dir;
+
+            return (
+              <Link
+                href={`/productDetails/${product.id}`}
+                key={product.id}
+                className="rounded-xl border border-gray-100 bg-white p-4 transition-shadow hover:shadow-md"
+              >
+                {/* Product Info */}
+                <div className="flex items-center gap-3">
+                  <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-[#f7f7f7] text-3xl">
+                    {product.image ?? product.categoryIcon ?? "🛒"}
+                  </div>
+
+                  <div>
+                    <h2 className="font-bold text-gray-900">
+                      {product.productNameBn ??
+                        product.nameBn ??
+                        "পণ্যের নাম"}
+                    </h2>
+
+                    <p className="mt-1 text-sm text-neutral-500">
+                      প্রতি{" "}
+                      {product.unit === "kg"
+                        ? "কেজি"
+                        : product.unit === "piece"
+                          ? "পিস"
+                          : product.unit === "litre"
+                            ? "লিটার"
+                            : "ডজন"}
+                    </p>
+                  </div>
                 </div>
-              </div>
-              <div className="bg-red-100 text-red-600 px-2 py-1 rounded-xl text-[10px]">
-                {product.change.dir == "up" ? <span>🔺</span> : <span>🔻</span>}{" "}
-                {product.change.pct}%
-              </div>
-            </div>
-          </Link>
+
+                {/* Price and Change */}
+                <div className="mt-5 flex items-end justify-between gap-3">
+                  <div>
+                    <p className="text-sm text-neutral-500">
+                      আজকের দাম
+                    </p>
+
+                    <p className="mt-1 text-xl font-extrabold text-gray-900">
+                      {toBanglaNumber(
+                        product.today ?? product.todayPrice,
+                      )}{" "}
+                      টাকা
+                    </p>
+                  </div>
+
+                  {product.change && (
+                    <div
+                      className={`rounded-lg px-2 py-1 text-xs font-semibold ${
+                        direction === "up"
+                          ? "bg-red-100 text-red-600"
+                          : direction === "down"
+                            ? "bg-green-100 text-green-700"
+                            : "bg-gray-100 text-gray-600"
+                      }`}
+                    >
+                      {direction === "up"
+                        ? "▲"
+                        : direction === "down"
+                          ? "▼"
+                          : "—"}{" "}
+                      {toBanglaNumber(product.change.pct)}%
+                    </div>
+                  )}
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+      )}
+    </main>
+  );
+}
+
+function CategoryFallback() {
+  return (
+    <main className="container mx-auto space-y-5 p-4 sm:p-6">
+      <div className="h-24 animate-pulse rounded-2xl bg-gray-200" />
+
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {Array.from({ length: 6 }).map((_, index) => (
+          <div
+            key={index}
+            className="h-36 animate-pulse rounded-xl bg-gray-200"
+          />
         ))}
       </div>
     </main>
   );
-};
+}
 
-export default CategoryPage;
+async function CategoryRoute({
+  params,
+}: {
+  params: Promise<{ categoryId: string }>;
+}) {
+  const { categoryId } = await params;
+
+  return <CategoryContent categoryId={categoryId} />;
+}
+
+export default function CategoryPage({
+  params,
+}: {
+  params: Promise<{ categoryId: string }>;
+}) {
+  return (
+    <Suspense fallback={<CategoryFallback />}>
+      <CategoryRoute params={params} />
+    </Suspense>
+  );
+}

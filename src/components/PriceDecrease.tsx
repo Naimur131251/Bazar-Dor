@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import Products from "./Products";
 
 interface IProduct {
-  id: string;
+  id: number;
+  slug: string;
   nameBn: string;
   image: string;
   today: number;

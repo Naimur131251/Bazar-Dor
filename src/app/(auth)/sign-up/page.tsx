@@ -30,18 +30,16 @@ export default function Basic() {
       alert("পাসওয়ার্ড দুটি মিলেনি!");
       return;
     }
-
+    console.log({
+      name,
+      email,
+      password,
+    });
     const { data: resData, error } = await signUp.email({
       name,
       email,
       password,
       callbackURL: "/",
-    });
-
-    console.log({
-      name,
-      email,
-      password,
     });
 
     if (error) {
@@ -88,12 +86,12 @@ export default function Basic() {
           isRequired
           name="email"
           type="email"
-          validate={(value) => {
-            if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\$/i.test(value)) {
-              return "Please enter a valid email address";
-            }
-            return null;
-          }}
+          // validate={(value) => {
+          //   if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\$/i.test(value)) {
+          //     return "Please enter a valid email address";
+          //   }
+          //   return null;
+          // }}
         >
           <Label>ইমেইল</Label>
           <Input
