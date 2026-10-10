@@ -101,18 +101,7 @@ const ProfilePage = () => {
   }
 
   if (!user) {
-    return (
-      <div className="mx-auto mt-10 max-w-xl p-5 text-center">
-        <p className="text-gray-600">প্রোফাইল দেখতে প্রথমে লগইন করুন।</p>
-
-        <button
-          onClick={() => router.push("/login")}
-          className="mt-4 rounded-lg bg-[#058240] px-5 py-2 text-white"
-        >
-          লগইন করুন
-        </button>
-      </div>
-    );
+    return null;
   }
 
   const avatarUrl = user.image;

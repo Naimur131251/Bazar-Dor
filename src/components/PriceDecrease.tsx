@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -76,18 +75,18 @@ const PriceDecrease = () => {
   }, []);
 
   return (
-    <section className="container mx-auto mt-10 rounded-xl">
+    <section className="container mx-auto mt-8 min-w-0 rounded-xl px-3 sm:mt-10 sm:px-4">
       {/* Header */}
       <div className="mb-3 flex items-center gap-2">
-        <span className="text-xl text-red-500">🔻</span>
+        <span className="shrink-0 text-xl text-red-500">🔻</span>
 
-        <h2 className="text-xl font-bold text-gray-800">
+        <h2 className="text-lg font-bold text-gray-800 sm:text-xl">
           আজ দাম কমেছে
         </h2>
       </div>
 
       {/* Loading Skeleton / Products */}
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-3 sm:gap-4 md:grid-cols-2 lg:grid-cols-3">
         {loading ? (
           Array.from({ length: 6 }).map((_, index) => (
             <ProductSkeleton key={index} />

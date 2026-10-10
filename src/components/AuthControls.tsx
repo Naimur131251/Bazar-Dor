@@ -12,12 +12,9 @@ const AuthControls = () => {
 
   if (isPending) {
     return (
-      <div className="flex animate-pulse items-center gap-3">
-        {/* Sign In Skeleton */}
-        <div className="h-9 w-20 rounded-xl bg-gray-200" />
-
-        {/* Sign Up Skeleton */}
-        <div className="h-9 w-20 rounded-xl bg-gray-200" />
+      <div className="flex animate-pulse items-center gap-2 sm:gap-3">
+        <div className="h-9 w-14 rounded-xl bg-gray-200 sm:w-20" />
+        <div className="hidden h-9 w-20 rounded-xl bg-gray-200 sm:block" />
       </div>
     );
   }
@@ -25,16 +22,14 @@ const AuthControls = () => {
   if (session?.user) {
     return (
       <div className="relative">
-        <div
-          className="flex items-center gap-3 cursor-pointer"
+        <button
+          type="button"
           onClick={() => setIsOpen((prev) => !prev)}
+          aria-label="Open profile menu"
           aria-expanded={isOpen}
+          className="flex max-w-36.25 cursor-pointer items-center gap-2 sm:max-w-none sm:gap-3"
         >
-          <button
-            type="button"
-            aria-label="Open profile menu"
-            className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-lg border border-neutral-200 bg-primary text-sm font-semibold uppercase text-white cursor-pointer"
-          >
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-neutral-200 bg-primary text-sm font-semibold uppercase text-white">
             {session.user.image ? (
               <Image
                 src={session.user.image}
@@ -46,13 +41,17 @@ const AuthControls = () => {
             ) : (
               session.user.name?.trim().charAt(0) || "U"
             )}
-          </button>
-          {session.user.name?.split(" ")[0]}
-          <FaCaretDown className="text-green-700" />
-        </div>
+          </span>
+
+          <span className="hidden max-w-32 truncate sm:inline">
+            {session.user.name?.split(" ")[0]}
+          </span>
+
+          <FaCaretDown className="shrink-0 text-green-700" />
+        </button>
 
         {isOpen && (
-          <div className="absolute right-0 top-12 z-50 w-48 rounded-xl border border-gray-200 bg-white p-2 shadow-lg">
+          <div className="absolute right-0 top-12 z-50 w-48 max-w-[calc(100vw-1.5rem)] rounded-xl border border-gray-200 bg-white p-2 shadow-lg">
             <div className="border-b border-gray-100 px-3 py-2">
               <p className="truncate text-sm font-semibold text-gray-800">
                 {session.user.name}
@@ -61,6 +60,7 @@ const AuthControls = () => {
                 {session.user.email}
               </p>
             </div>
+
             <Link
               href="/profile"
               onClick={() => setIsOpen(false)}
@@ -68,6 +68,7 @@ const AuthControls = () => {
             >
               আমার প্রোফাইল
             </Link>
+
             <button
               type="button"
               onClick={() => {
@@ -85,12 +86,14 @@ const AuthControls = () => {
   }
 
   return (
-    <div className="flex items-center gap-5">
-      <Link href="/sign-in">সাইন ইন</Link>
+    <div className="flex items-center gap-2 whitespace-nowrap sm:gap-5">
+      <Link href="/sign-in" className="rounded-lg py-2 text-sm">
+        সাইন ইন
+      </Link>
 
       <Link
         href="/sign-up"
-        className="rounded-xl bg-primary px-3.5 py-2 text-white"
+        className="rounded-xl bg-primary px-2.5 py-2 text-sm text-white sm:px-3.5"
       >
         সাইন আপ
       </Link>

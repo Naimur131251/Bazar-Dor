@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -71,24 +70,22 @@ const AllProducts = () => {
   }, []);
 
   return (
-    <section className="container mx-auto mt-10 rounded-xl">
+    <section className="container mx-auto mt-8 min-w-0 rounded-xl px-3 sm:mt-10 sm:px-4">
       {/* Header */}
       <div className="mb-2 flex flex-col gap-2">
-        <h2 className="text-xl font-bold text-gray-800">
-          সব পণ্য
-        </h2>
+        <h2 className="text-lg font-bold text-gray-800 sm:text-xl">সব পণ্য</h2>
 
         {loading ? (
-          <div className="h-6 w-56 animate-pulse rounded bg-gray-200" />
+          <div className="h-6 w-48 max-w-full animate-pulse rounded bg-gray-200 sm:w-56" />
         ) : (
-          <h3 className="text-lg text-neutral-600">
+          <h3 className="text-base text-neutral-600 sm:text-lg">
             মোট {products.length.toLocaleString("bn-BD")}টি পণ্য দেখানো হচ্ছে
           </h3>
         )}
       </div>
 
       {/* Loading Skeleton / Products */}
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-3 sm:gap-4 md:grid-cols-2 lg:grid-cols-3">
         {loading ? (
           Array.from({ length: 6 }).map((_, index) => (
             <ProductSkeleton key={index} />

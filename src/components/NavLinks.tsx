@@ -24,18 +24,20 @@ const NavLinks = async () => {
   const navs: Navs[] = await res.json();
 
   return (
-    <div className="flex items-center gap-5 mt-5 mx-auto container">
-      {navs.map((nav) => (
-        <Link
-          key={nav.id}
-          href={`/category/${nav.slug}`}
-          className="flex items-center px-3.5 py-1 gap-1"
-        >
-          <span>{nav.icon}</span>
-          <span>{nav.nameBn}</span>
-        </Link>
-      ))}
-    </div>
+    <nav className="container mx-auto mt-4 min-w-0 sm:mt-5">
+      <div className="flex items-center gap-2 overflow-x-auto whitespace-nowrap pb-1 sm:gap-5">
+        {navs.map((nav) => (
+          <Link
+            key={nav.id}
+            href={`/category/${nav.slug}`}
+            className="flex shrink-0 items-center gap-1 rounded-lg px-3.5 py-2 text-sm sm:text-base"
+          >
+            <span>{nav.icon}</span>
+            <span>{nav.nameBn}</span>
+          </Link>
+        ))}
+      </div>
+    </nav>
   );
 };
 
