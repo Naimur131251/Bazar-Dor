@@ -177,7 +177,7 @@ export default function Basic() {
 
         <div className="text-center text-sm">
           অ্যাকাউন্ট আছে?{" "}
-          <Link href="\" className="text-red-600">
+          <Link href="\sign-in" className="text-red-600">
             সাইন ইন করুন
           </Link>
         </div>
