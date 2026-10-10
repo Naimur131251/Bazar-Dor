@@ -19,7 +19,7 @@ const toBanglaNumber = (number: number) => {
     .replace(/\d/g, (digit) => "০১২৩৪৫৬৭৮৯"[Number(digit)]);
 };
 
-const Marquee = async () => {
+const MarqueeContent = async () => {
   const res = await fetch(
     "https://api.api-store.workers.dev/api/bazardor/products",
     {
@@ -29,26 +29,29 @@ const Marquee = async () => {
     },
   );
 
-  const data = await res.json();
-  const headlines: Headlines[] = data;
+  if (!res.ok) {
+    throw new Error("Failed to fetch market headlines");
+  }
+
+  const headlines: Headlines[] = await res.json();
 
   return (
-    <div>
-      <div className="bg-white">
-        <MarqueeText className="py-1" direction="right" duration={10}>
-          {headlines.map((h) => (
-            <Link className="mr-9 flex gap-2" href={`/productDetails/${h.id}`} key={h.id}>
-              <span>{h.image}</span>
-              <span>{h.nameBn}</span>
-              <span>{toBanglaNumber(h.today)} টাকা/কেজি</span>
-              <span>{h.change.dir === "up" ? "🔺" : "🔻"}</span>
-              <span>{toBanglaNumber(h.change.pct)}%</span>
-            </Link>
-          ))}
-        </MarqueeText>
-      </div>
-    </div>
+    <MarqueeText className="py-1 bg-white" direction="right" duration={10}>
+      {headlines.map((h) => (
+        <Link
+          className="mr-9 flex gap-2"
+          href={`/productDetails/${h.id}`}
+          key={h.id}
+        >
+          <span>{h.image}</span>
+          <span>{h.nameBn}</span>
+          <span>{toBanglaNumber(h.today)} টাকা/কেজি</span>
+          <span>{h.change.dir === "up" ? "🔺" : "🔻"}</span>
+          <span>{toBanglaNumber(h.change.pct)}%</span>
+        </Link>
+      ))}
+    </MarqueeText>
   );
 };
 
-export default Marquee;
+export default MarqueeContent;

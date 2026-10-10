@@ -33,16 +33,84 @@ interface IPageProps {
   pDId: string;
 }
 
-const toBn = (value: number | string) =>
-  Number(value).toLocaleString("bn-BD");
+const toBn = (value: number | string) => Number(value).toLocaleString("bn-BD");
 
 function ProductDetailsFallback() {
   return (
-    <main className="min-h-screen px-4 py-5 sm:px-6 lg:py-8">
+    <main className="min-h-screen animate-pulse px-4 py-5 text-gray-800 sm:px-6 lg:py-8">
       <div className="container mx-auto space-y-5">
-        <div className="h-6 w-64 animate-pulse rounded bg-gray-200" />
-        <div className="h-40 animate-pulse rounded-2xl bg-gray-200" />
-        <div className="h-72 animate-pulse rounded-2xl bg-gray-200" />
+        {/* Breadcrumb Skeleton */}
+        <nav className="flex flex-wrap items-center gap-2">
+          <div className="h-4 w-10 rounded bg-gray-200" />
+          <div className="h-4 w-2 rounded bg-gray-200" />
+          <div className="h-4 w-24 rounded bg-gray-200" />
+          <div className="h-4 w-2 rounded bg-gray-200" />
+          <div className="h-4 w-32 rounded bg-gray-200" />
+        </nav>
+
+        {/* Product Header Skeleton */}
+        <section className="flex flex-col justify-between gap-5 rounded-2xl border border-gray-100 bg-white p-5 sm:flex-row sm:items-center sm:p-6">
+          <div className="flex items-center gap-4">
+            <div className="h-16 w-16 shrink-0 rounded-xl bg-gray-200" />
+
+            <div className="space-y-3">
+              <div className="h-6 w-40 max-w-full rounded bg-gray-200" />
+              <div className="h-4 w-20 rounded bg-gray-200" />
+              <div className="h-4 w-56 max-w-full rounded bg-gray-200" />
+            </div>
+          </div>
+
+          {/* Today's Price Skeleton */}
+          <div className="flex flex-col items-center space-y-3 rounded-xl bg-gray-50 p-4">
+            <div className="h-4 w-20 rounded bg-gray-200" />
+            <div className="h-9 w-28 rounded bg-gray-200" />
+            <div className="h-4 w-24 rounded bg-gray-200" />
+            <div className="h-4 w-12 rounded bg-gray-200" />
+          </div>
+        </section>
+
+        {/* Price Summary Skeleton */}
+        <section className="space-y-5 rounded-2xl border border-gray-100 bg-white p-5">
+          <div className="h-6 w-40 rounded bg-gray-200" />
+
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {Array.from({ length: 3 }).map((_, index) => (
+              <div
+                key={index}
+                className="space-y-4 rounded-2xl border border-gray-200 px-5 py-4"
+              >
+                <div className="h-4 w-24 rounded bg-gray-200" />
+                <div className="h-9 w-32 max-w-full rounded bg-gray-200" />
+                <div className="h-3 w-40 max-w-full rounded bg-gray-200" />
+              </div>
+            ))}
+          </div>
+
+          {/* Market Prices Heading */}
+          <div className="h-6 w-52 max-w-full rounded bg-gray-200" />
+
+          {/* Market Prices Table Skeleton */}
+          <div className="overflow-hidden rounded-xl border border-gray-200">
+            {/* Table Header */}
+            <div className="grid grid-cols-4 gap-4 border-b border-gray-200 bg-gray-50 px-4 py-4">
+              {Array.from({ length: 4 }).map((_, index) => (
+                <div key={index} className="h-4 rounded bg-gray-200" />
+              ))}
+            </div>
+
+            {/* Table Rows */}
+            {Array.from({ length: 5 }).map((_, index) => (
+              <div
+                key={index}
+                className="grid grid-cols-4 gap-4 border-b border-gray-100 px-4 py-4 last:border-none"
+              >
+                {Array.from({ length: 4 }).map((_, cellIndex) => (
+                  <div key={cellIndex} className="h-5 rounded bg-gray-200" />
+                ))}
+              </div>
+            ))}
+          </div>
+        </section>
       </div>
     </main>
   );
@@ -67,7 +135,7 @@ async function ProductDetailsContent({ pDId }: IPageProps) {
     //     </Link>
     //   </main>
     // );
-    notFound()
+    notFound();
   }
 
   const product: IProduct = await res.json();
@@ -75,9 +143,7 @@ async function ProductDetailsContent({ pDId }: IPageProps) {
   if (!product?.nameBn) {
     return (
       <main className="container mx-auto p-6">
-        <p className="rounded-xl bg-white p-6">
-          পণ্যের তথ্য পাওয়া যায়নি।
-        </p>
+        <p className="rounded-xl bg-white p-6">পণ্যের তথ্য পাওয়া যায়নি।</p>
       </main>
     );
   }
@@ -85,14 +151,10 @@ async function ProductDetailsContent({ pDId }: IPageProps) {
   const markets = product.markets ?? [];
 
   const minPrice =
-    markets.length > 0
-      ? Math.min(...markets.map((market) => market.min))
-      : 0;
+    markets.length > 0 ? Math.min(...markets.map((market) => market.min)) : 0;
 
   const maxPrice =
-    markets.length > 0
-      ? Math.max(...markets.map((market) => market.max))
-      : 0;
+    markets.length > 0 ? Math.max(...markets.map((market) => market.max)) : 0;
 
   const averagePrice =
     markets.length > 0
@@ -129,9 +191,7 @@ async function ProductDetailsContent({ pDId }: IPageProps) {
             {product.categoryNameBn}
           </Link>
           <span>&gt;</span>
-          <span className="font-medium text-gray-800">
-            {product.nameBn}
-          </span>
+          <span className="font-medium text-gray-800">{product.nameBn}</span>
         </nav>
 
         {/* Product Header */}
@@ -146,9 +206,7 @@ async function ProductDetailsContent({ pDId }: IPageProps) {
                 {product.nameBn}
               </h1>
 
-              <p className="mt-1 text-sm text-gray-500">
-                প্রতি {unitLabel}
-              </p>
+              <p className="mt-1 text-sm text-gray-500">প্রতি {unitLabel}</p>
 
               <div className="mt-2 text-xs text-gray-500">
                 গতকালের তুলনায় আজ দাম{" "}
@@ -198,17 +256,13 @@ async function ProductDetailsContent({ pDId }: IPageProps) {
 
         {/* Price Summary */}
         <section className="space-y-5 rounded-2xl border border-gray-100 bg-white p-5">
-          <h2 className="text-lg font-bold text-gray-900">
-            দামের সারসংক্ষেপ
-          </h2>
+          <h2 className="text-lg font-bold text-gray-900">দামের সারসংক্ষেপ</h2>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <div className="rounded-2xl border border-gray-200 px-5 py-4">
               <p className="text-sm text-gray-500">সর্বনিম্ন দাম</p>
               <p className="mt-2 text-green-700">
-                <span className="text-3xl font-bold">
-                  {toBn(minPrice)}
-                </span>{" "}
+                <span className="text-3xl font-bold">{toBn(minPrice)}</span>{" "}
                 টাকা
               </p>
               <p className="mt-1 text-xs text-gray-500">
@@ -219,9 +273,7 @@ async function ProductDetailsContent({ pDId }: IPageProps) {
             <div className="rounded-2xl border border-gray-200 px-5 py-4">
               <p className="text-sm text-gray-500">সর্বাধিক দাম</p>
               <p className="mt-2 text-red-600">
-                <span className="text-3xl font-bold">
-                  {toBn(maxPrice)}
-                </span>{" "}
+                <span className="text-3xl font-bold">{toBn(maxPrice)}</span>{" "}
                 টাকা
               </p>
               <p className="mt-1 text-xs text-gray-500">
@@ -232,14 +284,10 @@ async function ProductDetailsContent({ pDId }: IPageProps) {
             <div className="rounded-2xl border border-gray-200 px-5 py-4">
               <p className="text-sm text-gray-500">গড় দাম</p>
               <p className="mt-2 text-blue-700">
-                <span className="text-3xl font-bold">
-                  {toBn(averagePrice)}
-                </span>{" "}
+                <span className="text-3xl font-bold">{toBn(averagePrice)}</span>{" "}
                 টাকা
               </p>
-              <p className="mt-1 text-xs text-gray-500">
-                বাজারগুলোর গড় মূল্য
-              </p>
+              <p className="mt-1 text-xs text-gray-500">বাজারগুলোর গড় মূল্য</p>
             </div>
           </div>
 
@@ -270,16 +318,10 @@ async function ProductDetailsContent({ pDId }: IPageProps) {
                       key={`${market.market}-${index}`}
                       className="border-b border-gray-100 even:bg-[#ffffef] last:border-none"
                     >
-                      <td className="px-4 py-3 font-medium">
-                        {market.market}
-                      </td>
+                      <td className="px-4 py-3 font-medium">{market.market}</td>
                       <td className="px-4 py-3">{market.division}</td>
-                      <td className="px-4 py-3">
-                        {toBn(market.min)} টাকা
-                      </td>
-                      <td className="px-4 py-3">
-                        {toBn(market.max)} টাকা
-                      </td>
+                      <td className="px-4 py-3">{toBn(market.min)} টাকা</td>
+                      <td className="px-4 py-3">{toBn(market.max)} টাকা</td>
                     </tr>
                   ))}
                 </tbody>

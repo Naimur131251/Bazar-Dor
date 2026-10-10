@@ -164,7 +164,7 @@ export default function Basic() {
         <div className="flex gap-2">
           <Button
             type="submit"
-            className="button button--md button--primary bg-[#05893E] w-full rounded-lg"
+            className="button button--md button--primary bg-primary w-full rounded-lg"
           >
             অ্যাকাউন্ট তৈরি করুন
           </Button>

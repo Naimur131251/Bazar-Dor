@@ -42,7 +42,6 @@ async function CategoryContent({ categoryId, sortBy }: ICategoryPage) {
   if (!res.ok) {
     notFound();
   }
-  
 
   const data = await res.json();
 
@@ -179,15 +178,53 @@ async function CategoryContent({ categoryId, sortBy }: ICategoryPage) {
 
 function CategoryFallback() {
   return (
-    <main className="container mx-auto space-y-5 p-4 sm:p-6">
-      <div className="h-24 animate-pulse rounded-2xl bg-gray-200" />
+    <main className="container mx-auto space-y-6 p-4 sm:p-6">
+      {/* Category Header Skeleton */}
+      <section className="flex animate-pulse items-center gap-3 rounded-2xl bg-white p-5">
+        <div className="h-12 w-12 shrink-0 rounded-xl bg-gray-200" />
 
+        <div className="flex-1 space-y-3">
+          <div className="h-6 w-40 rounded-md bg-gray-200" />
+          <div className="h-4 w-64 max-w-full rounded-md bg-gray-200" />
+        </div>
+      </section>
+
+      {/* Sorting Dropdown Skeleton */}
+      <div className="my-7 flex animate-pulse items-center justify-end gap-3 rounded-2xl bg-white p-5">
+        <div className="h-4 w-12 rounded bg-gray-200" />
+        <div className="h-10 w-36 rounded-lg bg-gray-200" />
+      </div>
+
+      {/* Product Count Skeleton */}
+      <div className="h-4 w-48 animate-pulse rounded bg-gray-200" />
+
+      {/* Product Cards Skeleton */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {Array.from({ length: 6 }).map((_, index) => (
           <div
             key={index}
-            className="h-36 animate-pulse rounded-xl bg-gray-200"
-          />
+            className="animate-pulse rounded-xl border border-gray-100 bg-white p-4"
+          >
+            {/* Product Info */}
+            <div className="flex items-center gap-3">
+              <div className="h-14 w-14 shrink-0 rounded-xl bg-gray-200" />
+
+              <div className="flex-1 space-y-3">
+                <div className="h-5 w-3/4 rounded bg-gray-200" />
+                <div className="h-4 w-1/2 rounded bg-gray-200" />
+              </div>
+            </div>
+
+            {/* Price and Change */}
+            <div className="mt-5 flex items-end justify-between gap-3">
+              <div className="space-y-2">
+                <div className="h-4 w-20 rounded bg-gray-200" />
+                <div className="h-6 w-28 rounded bg-gray-200" />
+              </div>
+
+              <div className="h-7 w-16 rounded-lg bg-gray-200" />
+            </div>
+          </div>
         ))}
       </div>
     </main>

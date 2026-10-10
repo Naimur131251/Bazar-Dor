@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Noto_Serif_Bengali } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
-import Marquee from "@/components/Marquee";
+import MarqueeWrapper from "@/components/MarqueeWrapper";
 import Footer from "@/components/Footer";
 
 const notoSerifBengali = Noto_Serif_Bengali({
@@ -23,7 +23,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full">
         <Header />
-        <Marquee />
+        <MarqueeWrapper />
         <main className="max-w-7xl mx-auto">{children}</main>
         <Footer />
       </body>

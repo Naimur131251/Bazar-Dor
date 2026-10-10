@@ -11,7 +11,15 @@ const AuthControls = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   if (isPending) {
-    return <div className="h-9 w-24 animate-pulse rounded-lg bg-gray-100" />;
+    return (
+      <div className="flex animate-pulse items-center gap-3">
+        {/* Sign In Skeleton */}
+        <div className="h-9 w-20 rounded-xl bg-gray-200" />
+
+        {/* Sign Up Skeleton */}
+        <div className="h-9 w-20 rounded-xl bg-gray-200" />
+      </div>
+    );
   }
 
   if (session?.user) {
@@ -25,7 +33,7 @@ const AuthControls = () => {
           <button
             type="button"
             aria-label="Open profile menu"
-            className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-lg border border-neutral-200 bg-[#05893E] text-sm font-semibold uppercase text-white cursor-pointer"
+            className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-lg border border-neutral-200 bg-primary text-sm font-semibold uppercase text-white cursor-pointer"
           >
             {session.user.image ? (
               <Image
@@ -77,12 +85,12 @@ const AuthControls = () => {
   }
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-5">
       <Link href="/sign-in">সাইন ইন</Link>
 
       <Link
         href="/sign-up"
-        className="rounded-xl bg-[#05893E] px-3.5 py-2 text-white"
+        className="rounded-xl bg-primary px-3.5 py-2 text-white"
       >
         সাইন আপ
       </Link>
