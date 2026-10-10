@@ -1,5 +1,5 @@
 "use client";
-import { signUp } from "@/lib/auth-client";
+import { authClient, signUp } from "@/lib/auth-client";
 import {
   Button,
   FieldError,
@@ -30,7 +30,7 @@ export default function Basic() {
       alert("পাসওয়ার্ড দুটি মিলেনি!");
       return;
     }
-    
+
     const { data: resData, error } = await signUp.email({
       name,
       email,
@@ -51,6 +51,18 @@ export default function Basic() {
     }
 
     console.log("Signup successful:", resData);
+  };
+
+  const handleGoogleSignIn = async () => {
+    await authClient.signIn.social({
+      provider: "google",
+    });
+  };
+
+  const handleGithubSignIn = async () => {
+    await authClient.signIn.social({
+      provider: "github",
+    });
   };
 
   return (
@@ -165,14 +177,23 @@ export default function Basic() {
         </div>
 
         <div className="flex justify-between text-[12px] font-bold gap-2">
-          <div className="px-3 py-1.5 rounded-lg border border-gray-200 flex items-center gap-1">
+          <button
+            type="button"
+            onClick={handleGoogleSignIn}
+            className="px-3 py-1.5 rounded-lg border border-gray-200 flex items-center gap-1 cursor-pointer"
+          >
             <FcGoogle className="-mt-0.5" />
             Google দিয়ে চালিয়ে যান
-          </div>
-          <div className="px-3 py-1.5 rounded-lg border border-gray-200 flex items-center gap-1">
+          </button>
+
+          <button
+            type="button"
+            onClick={handleGithubSignIn}
+            className="px-3 py-1.5 rounded-lg border border-gray-200 flex items-center gap-1 cursor-pointer"
+          >
             <FaGithub className="-mt-0.5" />
             GitHub দিয়ে চালিয়ে যান
-          </div>
+          </button>
         </div>
 
         <div className="text-center text-sm">

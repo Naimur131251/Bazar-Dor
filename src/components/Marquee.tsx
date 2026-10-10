@@ -37,7 +37,7 @@ const Marquee = async () => {
       <div className="bg-white">
         <MarqueeText className="py-1" direction="right" duration={10}>
           {headlines.map((h) => (
-            <Link className="mr-9 flex gap-2" href={`/news/${h.id}`} key={h.id}>
+            <Link className="mr-9 flex gap-2" href={`/productDetails/${h.id}`} key={h.id}>
               <span>{h.image}</span>
               <span>{h.nameBn}</span>
               <span>{toBanglaNumber(h.today)} টাকা/কেজি</span>

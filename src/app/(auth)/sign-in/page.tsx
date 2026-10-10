@@ -1,6 +1,6 @@
 "use client";
 
-import { signIn } from "@/lib/auth-client";
+import { authClient, signIn } from "@/lib/auth-client";
 import {
   Button,
   FieldError,
@@ -40,6 +40,18 @@ export default function Basic() {
     console.log("Signin successful:", data);
     router.push("/");
     router.refresh();
+  };
+
+  const handleGoogleSignIn = async () => {
+    await authClient.signIn.social({
+      provider: "google",
+    });
+  };
+
+  const handleGithubSignIn = async () => {
+    await authClient.signIn.social({
+      provider: "github",
+    });
   };
 
   return (
@@ -108,13 +120,8 @@ export default function Basic() {
         <div className="flex justify-between text-[12px] font-bold gap-2">
           <button
             type="button"
-            onClick={() =>
-              signIn.social({
-                provider: "google",
-                callbackURL: "/",
-              })
-            }
-            className="px-3 py-1.5 rounded-lg border border-gray-200 flex items-center gap-1"
+            onClick={handleGoogleSignIn}
+            className="px-3 py-1.5 rounded-lg border border-gray-200 flex items-center gap-1 cursor-pointer"
           >
             <FcGoogle className="-mt-0.5" />
             Google দিয়ে চালিয়ে যান
@@ -122,13 +129,8 @@ export default function Basic() {
 
           <button
             type="button"
-            onClick={() =>
-              signIn.social({
-                provider: "github",
-                callbackURL: "/",
-              })
-            }
-            className="px-3 py-1.5 rounded-lg border border-gray-200 flex items-center gap-1"
+            onClick={handleGithubSignIn}
+            className="px-3 py-1.5 rounded-lg border border-gray-200 flex items-center gap-1 cursor-pointer"
           >
             <FaGithub className="-mt-0.5" />
             GitHub দিয়ে চালিয়ে যান
