@@ -118,23 +118,14 @@ function ProductDetailsFallback() {
 
 async function ProductDetailsContent({ pDId }: IPageProps) {
   const res = await fetch(
-    `https://api.api-store.workers.dev/api/bazardor/products/${encodeURIComponent(pDId)}`,
+    // `https://api.api-store.workers.dev/api/bazardor/products/${encodeURIComponent(pDId)}`,
+    `https://openapi.programming-hero.com/api/bazardor/products/${encodeURIComponent(pDId)}`,
     {
       next: { revalidate: 3600 },
     },
   );
 
   if (!res.ok) {
-    // return (
-    //   <main className="container mx-auto p-6">
-    //     <p className="rounded-xl bg-white p-6 text-neutral-600">
-    //       পণ্যের তথ্য পাওয়া যায়নি।
-    //     </p>
-    //     <Link href="/" className="mt-4 inline-block text-green-700">
-    //       ← হোমে ফিরে যান
-    //     </Link>
-    //   </main>
-    // );
     notFound();
   }
 

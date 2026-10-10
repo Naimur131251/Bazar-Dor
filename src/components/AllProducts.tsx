@@ -49,7 +49,8 @@ const AllProducts = () => {
     const fetchProducts = async () => {
       try {
         const response = await fetch(
-          "https://api.api-store.workers.dev/api/bazardor/products",
+          // "https://api.api-store.workers.dev/api/bazardor/products",
+          "https://openapi.programming-hero.com/api/bazardor/products",
         );
 
         if (!response.ok) {
