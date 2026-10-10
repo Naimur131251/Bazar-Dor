@@ -8,6 +8,7 @@ interface IProduct {
   slug: string;
   nameBn: string;
   image: string;
+  unit: string;
   today: number;
   change: {
     dir: string;
