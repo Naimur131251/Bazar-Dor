@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Suspense } from "react";
 import SortDropdown from "./SortDropdown";
+import { notFound } from "next/navigation";
 
 interface ICategoryPage {
   categoryId: string;
@@ -39,8 +40,9 @@ async function CategoryContent({ categoryId, sortBy }: ICategoryPage) {
   );
 
   if (!res.ok) {
-    throw new Error("Failed to fetch products");
+    notFound();
   }
+  
 
   const data = await res.json();
 

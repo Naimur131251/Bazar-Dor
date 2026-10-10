@@ -12,7 +12,7 @@ const Header = () => {
       <div className="container mx-auto flex items-center justify-between pb-4">
         <div className="flex items-center gap-3">
           <Link href="/">
-            <div className="flex items-center justify-center overflow-hidden rounded-xl bg-[#05893E] p-2">
+            <div className="flex items-center justify-center overflow-hidden rounded-xl bg-primary p-2">
               <Image
                 src="/logo-icon.png"
                 alt="বাজার দর লোগো"

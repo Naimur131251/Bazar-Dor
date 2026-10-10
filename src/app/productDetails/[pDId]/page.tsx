@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
 interface IMarket {
@@ -56,16 +57,17 @@ async function ProductDetailsContent({ pDId }: IPageProps) {
   );
 
   if (!res.ok) {
-    return (
-      <main className="container mx-auto p-6">
-        <p className="rounded-xl bg-white p-6 text-neutral-600">
-          পণ্যের তথ্য পাওয়া যায়নি।
-        </p>
-        <Link href="/" className="mt-4 inline-block text-green-700">
-          ← হোমে ফিরে যান
-        </Link>
-      </main>
-    );
+    // return (
+    //   <main className="container mx-auto p-6">
+    //     <p className="rounded-xl bg-white p-6 text-neutral-600">
+    //       পণ্যের তথ্য পাওয়া যায়নি।
+    //     </p>
+    //     <Link href="/" className="mt-4 inline-block text-green-700">
+    //       ← হোমে ফিরে যান
+    //     </Link>
+    //   </main>
+    // );
+    notFound()
   }
 
   const product: IProduct = await res.json();
