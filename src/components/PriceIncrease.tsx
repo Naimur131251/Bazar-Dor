@@ -8,6 +8,7 @@ interface IProduct {
   slug: string;
   nameBn: string;
   image: string;
+  unit: string;
   today: number;
   change: {
     dir: string;
@@ -57,7 +58,8 @@ const PriceIncrease = () => {
           throw new Error("Failed to fetch products");
         }
 
-        const data: IProduct[] = await response.json();
+        const result = await response.json();
+        const data: IProduct[] = result.data || result;
 
         const increasedProducts = data
           .filter((product) => product.change?.dir === "up")
