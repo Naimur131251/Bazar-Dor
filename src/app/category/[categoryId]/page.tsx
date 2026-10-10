@@ -1,9 +1,10 @@
-
 import Link from "next/link";
 import { Suspense } from "react";
+import SortDropdown from "./SortDropdown";
 
 interface ICategoryPage {
   categoryId: string;
+  sortBy: SortOption;
 }
 
 interface ICategoryProduct {
@@ -23,11 +24,13 @@ interface ICategoryProduct {
   };
 }
 
+type SortOption = "default" | "price-asc" | "price-desc";
+
 const toBanglaNumber = (value?: number) => {
   return value?.toLocaleString("bn-BD") ?? "—";
 };
 
-async function CategoryContent({ categoryId }: ICategoryPage) {
+async function CategoryContent({ categoryId, sortBy }: ICategoryPage) {
   const res = await fetch(
     `https://api.api-store.workers.dev/api/bazardor/products?category=${encodeURIComponent(categoryId)}`,
     {
@@ -47,13 +50,29 @@ async function CategoryContent({ categoryId }: ICategoryPage) {
 
   const firstProduct = products[0];
 
+  const sortedProducts = [...products];
+
+  if (sortBy === "price-asc") {
+    sortedProducts.sort(
+      (a, b) =>
+        (a.today ?? a.todayPrice ?? Infinity) -
+        (b.today ?? b.todayPrice ?? Infinity),
+    );
+  }
+
+  if (sortBy === "price-desc") {
+    sortedProducts.sort(
+      (a, b) =>
+        (b.today ?? b.todayPrice ?? -Infinity) -
+        (a.today ?? a.todayPrice ?? -Infinity),
+    );
+  }
+
   return (
     <main className="container mx-auto p-4 sm:p-6">
       {/* Category Header */}
       <section className="flex items-center gap-3 rounded-2xl bg-white p-5">
-        <div className="text-4xl">
-          {firstProduct?.categoryIcon ?? "🛒"}
-        </div>
+        <div className="text-4xl">{firstProduct?.categoryIcon ?? "🛒"}</div>
 
         <div>
           <h1 className="text-2xl font-bold text-gray-900">
@@ -70,9 +89,7 @@ async function CategoryContent({ categoryId }: ICategoryPage) {
       <div className="my-7 flex items-center justify-end gap-2 rounded-2xl bg-white p-5">
         <span className="text-sm text-neutral-600">সাজান</span>
 
-        <span className="rounded-lg border border-neutral-300 px-3 py-1 text-sm">
-          ডিফল্ট
-        </span>
+        <SortDropdown sortBy={sortBy} />
       </div>
 
       {/* Product Count */}
@@ -87,7 +104,7 @@ async function CategoryContent({ categoryId }: ICategoryPage) {
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {products.map((product) => {
+          {sortedProducts.map((product) => {
             const direction = product.change?.dir;
 
             return (
@@ -104,9 +121,7 @@ async function CategoryContent({ categoryId }: ICategoryPage) {
 
                   <div>
                     <h2 className="font-bold text-gray-900">
-                      {product.productNameBn ??
-                        product.nameBn ??
-                        "পণ্যের নাম"}
+                      {product.productNameBn ?? product.nameBn ?? "পণ্যের নাম"}
                     </h2>
 
                     <p className="mt-1 text-sm text-neutral-500">
@@ -125,15 +140,10 @@ async function CategoryContent({ categoryId }: ICategoryPage) {
                 {/* Price and Change */}
                 <div className="mt-5 flex items-end justify-between gap-3">
                   <div>
-                    <p className="text-sm text-neutral-500">
-                      আজকের দাম
-                    </p>
+                    <p className="text-sm text-neutral-500">আজকের দাম</p>
 
                     <p className="mt-1 text-xl font-extrabold text-gray-900">
-                      {toBanglaNumber(
-                        product.today ?? product.todayPrice,
-                      )}{" "}
-                      টাকা
+                      {toBanglaNumber(product.today ?? product.todayPrice)} টাকা
                     </p>
                   </div>
 
@@ -184,22 +194,31 @@ function CategoryFallback() {
 
 async function CategoryRoute({
   params,
+  searchParams,
 }: {
   params: Promise<{ categoryId: string }>;
+  searchParams: Promise<{ sort?: string | string[] }>;
 }) {
-  const { categoryId } = await params;
+  const [{ categoryId }, query] = await Promise.all([params, searchParams]);
+  const requestedSort = Array.isArray(query.sort) ? query.sort[0] : query.sort;
+  const sortBy: SortOption =
+    requestedSort === "price-asc" || requestedSort === "price-desc"
+      ? requestedSort
+      : "default";
 
-  return <CategoryContent categoryId={categoryId} />;
+  return <CategoryContent categoryId={categoryId} sortBy={sortBy} />;
 }
 
 export default function CategoryPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ categoryId: string }>;
+  searchParams: Promise<{ sort?: string | string[] }>;
 }) {
   return (
     <Suspense fallback={<CategoryFallback />}>
-      <CategoryRoute params={params} />
+      <CategoryRoute params={params} searchParams={searchParams} />
     </Suspense>
   );
 }
