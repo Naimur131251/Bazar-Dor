@@ -76,7 +76,7 @@ const PriceIncrease = () => {
   }, []);
 
   return (
-    <section className="container mx-auto min-w-0 rounded-xl px-3 sm:px-4">
+    <section className="container mx-auto min-w-0 rounded-xl px-3 sm:px-0">
       {/* Header */}
       <div className="mb-3 flex items-center gap-2">
         <span className="shrink-0 text-xl text-red-500">🔺</span>

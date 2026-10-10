@@ -41,8 +41,8 @@ function HeaderFallback() {
 const Header = () => {
   return (
     <Suspense fallback={<HeaderFallback />}>
-      <header className="bg-white px-3 py-3 sm:px-4 sm:py-4">
-        <div className="container mx-auto flex items-center justify-between gap-3 pb-4">
+      <header className="bg-white pt-3 sm:pt-4 px-3 sm:px-0">
+        <div className="container mx-auto flex items-center justify-between gap-3">
           {/* Logo and Website Name */}
           <div className="flex min-w-0 items-center gap-2 sm:gap-3">
             <Link href="/" className="shrink-0">
@@ -73,8 +73,9 @@ const Header = () => {
             <AuthControls />
           </div>
         </div>
-
+        <hr className="mt-4 border-gray-100" />
         <NavLinks />
+        <hr className="border-gray-100" />
       </header>
     </Suspense>
   );

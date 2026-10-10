@@ -6,9 +6,11 @@ import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { FiCornerDownLeft } from "react-icons/fi";
+import { toast } from "react-toastify";
 
 const ProfilePage = () => {
   const router = useRouter();
+  const [isSigningOut, setIsSigningOut] = useState(false);
 
   const { data: session, isPending } = useSession();
 
@@ -22,55 +24,54 @@ const ProfilePage = () => {
     e.preventDefault();
 
     if (!inputName.trim() && !inputAvatar.trim()) {
-      alert("আপডেট করার জন্য নাম অথবা ছবির URL দিন।");
+      toast.error("আপডেট করার জন্য নাম অথবা ছবির URL দিন।");
       return;
+    }
+
+    const updates: {
+      name?: string;
+      image?: string;
+    } = {};
+
+    if (inputName.trim()) {
+      updates.name = inputName.trim();
+    }
+
+    if (inputAvatar.trim()) {
+      try {
+        const imageUrl = new URL(inputAvatar.trim());
+
+        if (imageUrl.protocol !== "https:" && imageUrl.protocol !== "http:") {
+          toast.error("সঠিক ছবির URL দিন।");
+          return;
+        }
+
+        updates.image = imageUrl.toString();
+      } catch {
+        toast.error("সঠিক ছবির URL দিন।");
+        return;
+      }
     }
 
     setIsUpdating(true);
 
     try {
-      const updates: {
-        name?: string;
-        image?: string;
-      } = {};
-
-      if (inputName.trim()) {
-        updates.name = inputName.trim();
-      }
-
-      if (inputAvatar.trim()) {
-        try {
-          const imageUrl = new URL(inputAvatar.trim());
-
-          if (imageUrl.protocol !== "https:" && imageUrl.protocol !== "http:") {
-            alert("সঠিক ছবির URL দিন।");
-            return;
-          }
-
-          updates.image = imageUrl.toString();
-        } catch {
-          alert("সঠিক ছবির URL দিন।");
-          return;
-        }
-      }
-
       const result = await authClient.updateUser(updates);
 
       if (result.error) {
-        alert(result.error.message || "প্রোফাইল আপডেট করা যায়নি।");
+        toast.error(result.error.message || "প্রোফাইল আপডেট করা যায়নি।");
         return;
       }
 
-      // Refresh the session data after a successful update.
       await authClient.getSession();
 
       setInputName("");
       setInputAvatar("");
 
-      alert("প্রোফাইল সফলভাবে আপডেট হয়েছে!");
+      toast.success("প্রোফাইল সফলভাবে আপডেট হয়েছে!");
     } catch (error) {
       console.error("Profile update error:", error);
-      alert("আপডেট করার সময় সমস্যা হয়েছে।");
+      toast.error("আপডেট করার সময় সমস্যা হয়েছে।");
     } finally {
       setIsUpdating(false);
     }
@@ -78,17 +79,23 @@ const ProfilePage = () => {
 
   const handleSignOut = async () => {
     try {
-      await authClient.signOut({
-        fetchOptions: {
-          onSuccess: () => {
-            router.push("/sign-in");
-            router.refresh();
-          },
-        },
-      });
+      setIsSigningOut(true);
+
+      const result = await authClient.signOut();
+
+      if (result.error) {
+        toast.error(result.error.message || "সাইন আউট করা যায়নি।");
+        return;
+      }
+
+      toast.success("সফলভাবে সাইন আউট হয়েছে!");
+      router.push("/sign-in");
+      router.refresh();
     } catch (error) {
       console.error("Sign out error:", error);
-      alert("সাইন আউট করা যায়নি।");
+      toast.error("সাইন আউট করার সময় সমস্যা হয়েছে।");
+    } finally {
+      setIsSigningOut(false);
     }
   };
 
@@ -147,15 +154,15 @@ const ProfilePage = () => {
             <p className="break-all text-sm text-gray-500">{user.email}</p>
           </div>
         </div>
-
         <button
           type="button"
           onClick={handleSignOut}
-          className="inline-flex items-center gap-2 rounded-lg border border-[#dc3545] px-4 py-2 text-sm font-medium text-[#dc3545] transition hover:bg-[#fff5f5] cursor-pointer"
+          disabled={isSigningOut}
+          className="inline-flex items-center gap-2 rounded-lg border border-[#dc3545] px-4 py-2 text-sm font-medium text-[#dc3545] transition hover:bg-[#fff5f5] disabled:cursor-not-allowed disabled:opacity-60"
         >
           <FiCornerDownLeft />
-          সাইন আউট
-        </button>
+          {isSigningOut ? "সাইন আউট হচ্ছে..." : "সাইন আউট"}
+        </button>{" "}
       </div>
 
       {/* Profile update form */}

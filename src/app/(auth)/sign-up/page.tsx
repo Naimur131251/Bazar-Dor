@@ -13,56 +13,75 @@ import Link from "next/link";
 import { useState } from "react";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
+import { toast } from "react-toastify";
 
 export default function Basic() {
   const [passwordValue, setPasswordValue] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const formData = new FormData(e.currentTarget);
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
     const name = formData.get("name") as string;
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
     const confirmPassword = formData.get("confirmPassword") as string;
 
     if (password !== confirmPassword) {
-      alert("পাসওয়ার্ড দুটি মিলেনি!");
+      toast.error("পাসওয়ার্ড দুটি মিলেনি!");
       return;
     }
 
-    const { data: resData, error } = await signUp.email({
-      name,
-      email,
-      password,
-      callbackURL: "/",
-    });
+    try {
+      setIsLoading(true);
 
-    console.log({
-      name,
-      email,
-      password,
-    });
+      const { data: resData, error } = await signUp.email({
+        name,
+        email,
+        password,
+        callbackURL: "/",
+      });
 
-    if (error) {
+      if (error) {
+        toast.error(error.message || "সাইন আপ করা যায়নি!");
+        return;
+      }
+
+      console.log("Signup successful:", resData);
+      toast.success("অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে!");
+    } catch (error) {
       console.error("Signup failed:", error);
-      alert(error.message);
-      return;
+      toast.error("কিছু একটা সমস্যা হয়েছে। আবার চেষ্টা করুন!");
+    } finally {
+      setIsLoading(false);
     }
-
-    console.log("Signup successful:", resData);
   };
 
   const handleGoogleSignIn = async () => {
-    await authClient.signIn.social({
-      provider: "google",
-    });
+    try {
+      await authClient.signIn.social({
+        provider: "google",
+        callbackURL: "/",
+      });
+    } catch (error) {
+      console.error("Google sign-in failed:", error);
+      toast.error("Google দিয়ে সাইন আপ করা যায়নি!");
+    }
   };
 
   const handleGithubSignIn = async () => {
-    await authClient.signIn.social({
-      provider: "github",
-    });
+    try {
+      await authClient.signIn.social({
+        provider: "github",
+        callbackURL: "/",
+      });
+    } catch (error) {
+      console.error("GitHub sign-in failed:", error);
+      toast.error("GitHub দিয়ে সাইন আপ করা যায়নি!");
+    }
   };
 
   return (
@@ -164,9 +183,10 @@ export default function Basic() {
         <div className="flex gap-2">
           <Button
             type="submit"
+            isDisabled={isLoading}
             className="button button--md button--primary bg-primary w-full rounded-lg"
           >
-            অ্যাকাউন্ট তৈরি করুন
+            {isLoading ? "অ্যাকাউন্ট তৈরি হচ্ছে..." : "অ্যাকাউন্ট তৈরি করুন"}
           </Button>
         </div>
 
@@ -198,13 +218,13 @@ export default function Basic() {
 
         <div className="text-center text-sm">
           অ্যাকাউন্ট আছে?{" "}
-          <Link href="\sign-in" className="text-red-600">
+          <Link href="/sign-in" className="text-red-600">
             সাইন ইন করুন
           </Link>
         </div>
       </div>
 
-      <Link href="\" className="text-center text-neutral-500 mb-5">
+      <Link href="/" className="text-center text-neutral-500 mb-5">
         ← হোম পেজে ফিরে যান
       </Link>
     </Form>

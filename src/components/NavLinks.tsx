@@ -25,8 +25,8 @@ const NavLinks = async () => {
   const navs: Navs[] = await res.json();
 
   return (
-    <nav className="container mx-auto mt-4 min-w-0 sm:mt-5">
-      <div className="flex items-center gap-2 overflow-x-auto whitespace-nowrap pb-1 sm:gap-5">
+    <nav className="container mx-auto min-w-0 my-2">
+      <div className="flex items-center gap-2 overflow-x-auto whitespace-nowrap sm:gap-5">
         {navs.map((nav) => (
           <Link
             key={nav.id}

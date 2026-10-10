@@ -11,47 +11,71 @@ import {
 } from "@heroui/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
+import { toast } from "react-toastify";
 
 export default function Basic() {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
-
     const email = (formData.get("email") as string).trim();
     const password = formData.get("password") as string;
 
-    const { data, error } = await signIn.email({
-      email,
-      password,
-      callbackURL: "/",
-    });
+    try {
+      setIsLoading(true);
 
-    if (error) {
+      const { data, error } = await signIn.email({
+        email,
+        password,
+        callbackURL: "/",
+      });
+
+      if (error) {
+        toast.error(error.message || "সাইন ইন করা যায়নি!");
+        return;
+      }
+
+      console.log("Signin successful:", data);
+      toast.success("সফলভাবে সাইন ইন হয়েছে!");
+
+      router.push("/");
+      router.refresh();
+    } catch (error) {
       console.error("Signin failed:", error);
-      alert(error.message);
-      return;
+      toast.error("কিছু একটা সমস্যা হয়েছে। আবার চেষ্টা করুন!");
+    } finally {
+      setIsLoading(false);
     }
-
-    console.log("Signin successful:", data);
-    router.push("/");
-    router.refresh();
   };
 
   const handleGoogleSignIn = async () => {
-    await authClient.signIn.social({
-      provider: "google",
-    });
+    try {
+      await authClient.signIn.social({
+        provider: "google",
+        callbackURL: "/",
+      });
+    } catch (error) {
+      console.error("Google sign-in failed:", error);
+      toast.error("Google দিয়ে সাইন ইন করা যায়নি!");
+    }
   };
 
   const handleGithubSignIn = async () => {
-    await authClient.signIn.social({
-      provider: "github",
-    });
+    try {
+      await authClient.signIn.social({
+        provider: "github",
+        callbackURL: "/",
+      });
+    } catch (error) {
+      console.error("GitHub sign-in failed:", error);
+      toast.error("GitHub দিয়ে সাইন ইন করা যায়নি!");
+    }
   };
 
   return (
@@ -105,9 +129,10 @@ export default function Basic() {
         <div className="flex gap-2">
           <Button
             type="submit"
+            isDisabled={isLoading}
             className="button button--md button--primary bg-primary w-full rounded-lg"
           >
-            সাইন ইন
+            {isLoading ? "সাইন ইন হচ্ছে..." : "সাইন ইন"}
           </Button>
         </div>
 

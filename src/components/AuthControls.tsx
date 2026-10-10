@@ -5,10 +5,33 @@ import Link from "next/link";
 import { signOut, useSession } from "@/lib/auth-client";
 import { useState } from "react";
 import { FaCaretDown } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 const AuthControls = () => {
   const { data: session, isPending } = useSession();
   const [isOpen, setIsOpen] = useState(false);
+  const [isSigningOut, setIsSigningOut] = useState(false);
+
+  const handleSignOut = async () => {
+    try {
+      setIsSigningOut(true);
+      setIsOpen(false);
+
+      const { error } = await signOut();
+
+      if (error) {
+        toast.error(error.message || "সাইন আউট করা যায়নি!");
+        return;
+      }
+
+      toast.success("সফলভাবে সাইন আউট হয়েছে!");
+    } catch (error) {
+      console.error("Sign out failed:", error);
+      toast.error("সাইন আউট করার সময় সমস্যা হয়েছে!");
+    } finally {
+      setIsSigningOut(false);
+    }
+  };
 
   if (isPending) {
     return (
@@ -71,13 +94,11 @@ const AuthControls = () => {
 
             <button
               type="button"
-              onClick={() => {
-                setIsOpen(false);
-                signOut();
-              }}
-              className="w-full rounded-lg px-3 py-2 text-left text-sm text-red-600 hover:bg-red-50"
+              onClick={handleSignOut}
+              disabled={isSigningOut}
+              className="w-full rounded-lg px-3 py-2 text-left text-sm text-red-600 hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-60"
             >
-              সাইন আউট
+              {isSigningOut ? "সাইন আউট হচ্ছে..." : "সাইন আউট"}
             </button>
           </div>
         )}

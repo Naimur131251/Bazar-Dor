@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import MarqueeWrapper from "@/components/MarqueeWrapper";
 import Footer from "@/components/Footer";
+import { ToastContainer } from "react-toastify";
 
 const notoSerifBengali = Noto_Serif_Bengali({
   subsets: ["latin", "bengali"],
@@ -22,6 +23,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${notoSerifBengali.className}  h-full antialiased`}
     >
       <body className="min-h-full">
+        <ToastContainer />
         <Header />
         <MarqueeWrapper />
         <main className="max-w-7xl mx-auto">{children}</main>

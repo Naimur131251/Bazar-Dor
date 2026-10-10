@@ -71,7 +71,7 @@ const AllProducts = () => {
   }, []);
 
   return (
-    <section className="container mx-auto mt-8 min-w-0 rounded-xl px-3 sm:mt-10 sm:px-4">
+    <section className="container mx-auto mt-8 min-w-0 rounded-xl px-3 sm:mt-10 sm:px-0">
       {/* Header */}
       <div className="mb-2 flex flex-col gap-2">
         <h2 className="text-lg font-bold text-gray-800 sm:text-xl">সব পণ্য</h2>
