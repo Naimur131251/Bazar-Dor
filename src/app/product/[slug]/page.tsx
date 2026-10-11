@@ -41,37 +41,37 @@ function ProductDetailsFallback() {
       <div className="container mx-auto space-y-5">
         {/* Breadcrumb Skeleton */}
         <nav className="flex flex-wrap items-center gap-2">
-          <div className="h-4 w-10 rounded bg-gray-200" />
-          <div className="h-4 w-2 rounded bg-gray-200" />
-          <div className="h-4 w-24 rounded bg-gray-200" />
-          <div className="h-4 w-2 rounded bg-gray-200" />
-          <div className="h-4 w-32 rounded bg-gray-200" />
+          <div className="skeleton-shimmer h-4 w-10 rounded bg-gray-200" />
+          <div className="skeleton-shimmer h-4 w-2 rounded bg-gray-200" />
+          <div className="skeleton-shimmer h-4 w-24 rounded bg-gray-200" />
+          <div className="skeleton-shimmer h-4 w-2 rounded bg-gray-200" />
+          <div className="skeleton-shimmer h-4 w-32 rounded bg-gray-200" />
         </nav>
 
         {/* Product Header Skeleton */}
         <section className="flex flex-col justify-between gap-5 rounded-2xl border border-gray-100 bg-white p-5 sm:flex-row sm:items-center sm:p-6">
           <div className="flex items-center gap-4">
-            <div className="h-16 w-16 shrink-0 rounded-xl bg-gray-200" />
+            <div className="skeleton-shimmer h-16 w-16 shrink-0 rounded-xl bg-gray-200" />
 
             <div className="space-y-3">
-              <div className="h-6 w-40 max-w-full rounded bg-gray-200" />
-              <div className="h-4 w-20 rounded bg-gray-200" />
-              <div className="h-4 w-56 max-w-full rounded bg-gray-200" />
+              <div className="skeleton-shimmer h-6 w-40 max-w-full rounded bg-gray-200" />
+              <div className="skeleton-shimmer h-4 w-20 rounded bg-gray-200" />
+              <div className="skeleton-shimmer h-4 w-56 max-w-full rounded bg-gray-200" />
             </div>
           </div>
 
           {/* Today's Price Skeleton */}
           <div className="flex flex-col items-center space-y-3 rounded-xl bg-gray-50 p-4">
-            <div className="h-4 w-20 rounded bg-gray-200" />
-            <div className="h-9 w-28 rounded bg-gray-200" />
-            <div className="h-4 w-24 rounded bg-gray-200" />
-            <div className="h-4 w-12 rounded bg-gray-200" />
+            <div className="skeleton-shimmer h-4 w-20 rounded bg-gray-200" />
+            <div className="skeleton-shimmer h-9 w-28 rounded bg-gray-200" />
+            <div className="skeleton-shimmer h-4 w-24 rounded bg-gray-200" />
+            <div className="skeleton-shimmer h-4 w-12 rounded bg-gray-200" />
           </div>
         </section>
 
         {/* Price Summary Skeleton */}
         <section className="space-y-5 rounded-2xl border border-gray-100 bg-white p-5">
-          <div className="h-6 w-40 rounded bg-gray-200" />
+          <div className="skeleton-shimmer h-6 w-40 rounded bg-gray-200" />
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {Array.from({ length: 3 }).map((_, index) => (
@@ -79,22 +79,22 @@ function ProductDetailsFallback() {
                 key={index}
                 className="space-y-4 rounded-2xl border border-gray-200 px-5 py-4"
               >
-                <div className="h-4 w-24 rounded bg-gray-200" />
-                <div className="h-9 w-32 max-w-full rounded bg-gray-200" />
-                <div className="h-3 w-40 max-w-full rounded bg-gray-200" />
+                <div className="skeleton-shimmer h-4 w-24 rounded bg-gray-200" />
+                <div className="skeleton-shimmer h-9 w-32 max-w-full rounded bg-gray-200" />
+                <div className="skeleton-shimmer h-3 w-40 max-w-full rounded bg-gray-200" />
               </div>
             ))}
           </div>
 
           {/* Market Prices Heading */}
-          <div className="h-6 w-52 max-w-full rounded bg-gray-200" />
+          <div className="skeleton-shimmer h-6 w-52 max-w-full rounded bg-gray-200" />
 
           {/* Market Prices Table Skeleton */}
           <div className="overflow-hidden rounded-xl border border-gray-200">
             {/* Table Header */}
             <div className="grid grid-cols-4 gap-4 border-b border-gray-200 bg-gray-50 px-4 py-4">
               {Array.from({ length: 4 }).map((_, index) => (
-                <div key={index} className="h-4 rounded bg-gray-200" />
+                <div key={index} className="skeleton-shimmer h-4 rounded bg-gray-200" />
               ))}
             </div>
 
@@ -105,7 +105,7 @@ function ProductDetailsFallback() {
                 className="grid grid-cols-4 gap-4 border-b border-gray-100 px-4 py-4 last:border-none"
               >
                 {Array.from({ length: 4 }).map((_, cellIndex) => (
-                  <div key={cellIndex} className="h-5 rounded bg-gray-200" />
+                  <div key={cellIndex} className="skeleton-shimmer h-5 rounded bg-gray-200" />
                 ))}
               </div>
             ))}

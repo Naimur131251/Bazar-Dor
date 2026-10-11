@@ -1,4 +1,3 @@
-
 "use client";
 
 import { authClient, useSession } from "@/lib/auth-client";
@@ -37,10 +36,7 @@ const ProfilePage = () => {
       try {
         const imageUrl = new URL(inputAvatar.trim());
 
-        if (
-          imageUrl.protocol !== "https:" &&
-          imageUrl.protocol !== "http:"
-        ) {
+        if (imageUrl.protocol !== "https:" && imageUrl.protocol !== "http:") {
           toast.error("সঠিক ছবির URL দিন।");
           return;
         }
@@ -101,8 +97,50 @@ const ProfilePage = () => {
 
   if (isPending) {
     return (
-      <div className="flex min-h-60 items-center justify-center">
-        <span className="loading loading-spinner loading-lg" />
+      <div className="container mx-auto mt-5 w-full max-w-175 space-y-5 px-4 pb-8 sm:mt-8 sm:space-y-6 sm:px-6 lg:mt-10 animate-pulse">
+        {/* Page heading skeleton */}
+        <div className="mb-6 space-y-3">
+          <div className="skeleton-shimmer h-7 w-40 rounded-md bg-gray-200" />
+          <div className="skeleton-shimmer h-4 w-64 max-w-full rounded-md bg-gray-200" />
+        </div>
+
+        {/* Profile card skeleton */}
+        <div className="flex flex-col gap-4 rounded-xl border border-[#eaeaea] bg-white p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:p-6">
+          <div className="flex min-w-0 items-center gap-3 sm:gap-4">
+            {/* Avatar */}
+            <div className="skeleton-shimmer h-16 w-16 shrink-0 rounded-xl bg-gray-200 sm:h-18 sm:w-18" />
+
+            {/* Name and email */}
+            <div className="min-w-0 flex-1 space-y-3">
+              <div className="skeleton-shimmer h-5 w-36 max-w-full rounded-md bg-gray-200" />
+              <div className="skeleton-shimmer h-4 w-48 max-w-full rounded-md bg-gray-200" />
+            </div>
+          </div>
+
+          {/* Sign out button */}
+          <div className="skeleton-shimmer h-12 w-full rounded-lg bg-gray-200 sm:h-10 sm:w-28" />
+        </div>
+
+        {/* Update form skeleton */}
+        <div className="space-y-5 rounded-xl border border-[#eaeaea] bg-white px-4 py-5 shadow-sm sm:px-6 sm:py-6 lg:px-8">
+          {/* Form heading */}
+          <div className="skeleton-shimmer h-5 w-36 rounded-md bg-gray-200" />
+
+          {/* Name field */}
+          <div className="space-y-2">
+            <div className="skeleton-shimmer h-4 w-12 rounded-md bg-gray-200" />
+            <div className="skeleton-shimmer h-12 w-full rounded-lg bg-gray-200" />
+          </div>
+
+          {/* Avatar URL field */}
+          <div className="space-y-2">
+            <div className="skeleton-shimmer h-4 w-36 rounded-md bg-gray-200" />
+            <div className="skeleton-shimmer h-12 w-full rounded-lg bg-gray-200" />
+          </div>
+
+          {/* Submit button */}
+          <div className="skeleton-shimmer h-12 w-full rounded-lg bg-gray-200" />
+        </div>
       </div>
     );
   }
@@ -222,7 +260,7 @@ const ProfilePage = () => {
           <button
             type="submit"
             disabled={isUpdating}
-            className="flex h-12 w-full items-center justify-center rounded-lg bg-[#058240] text-base font-medium text-white shadow-sm transition hover:bg-[#046c35] disabled:cursor-not-allowed disabled:opacity-60"
+            className="flex h-12 w-full items-center justify-center rounded-lg bg-[#058240] text-base font-medium text-white shadow-sm transition hover:bg-[#046c35] cursor-pointer disabled:cursor-not-allowed disabled:opacity-60"
           >
             {isUpdating ? "আপডেট হচ্ছে..." : "আপডেট"}
           </button>

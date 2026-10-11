@@ -80,7 +80,7 @@ export default function Basic() {
 
   return (
     <Form
-      className="flex w-100 flex-col mx-auto my-10 space-y-6"
+      className="mx-auto my-6 flex w-full max-w-md flex-col space-y-6 px-4 sm:my-10"
       onSubmit={onSubmit}
     >
       <div className="text-center mx-auto">
@@ -146,28 +146,28 @@ export default function Basic() {
           </Button>
         </div>
 
-        <div className="flex justify-center items-center gap-3 text-[12px]">
-          <hr className="w-40 h-0.5 bg-gray-300 border-0" />
-          অথবা
-          <hr className="w-40 h-0.5 bg-gray-300 border-0" />
+        <div className="flex w-full items-center gap-3 text-xs">
+          <hr className="h-0.5 min-w-0 flex-1 border-0 bg-gray-300" />
+          <span className="shrink-0">অথবা</span>
+          <hr className="h-0.5 min-w-0 flex-1 border-0 bg-gray-300" />
         </div>
 
-        <div className="flex justify-between text-[12px] font-bold gap-2">
+        <div className="flex flex-col gap-3 sm:flex-row">
           <button
             type="button"
             onClick={handleGoogleSignIn}
-            className="px-3 py-1.5 rounded-lg border border-gray-200 flex items-center gap-1 cursor-pointer"
+            className="flex w-full items-center justify-center gap-1 rounded-lg border border-gray-200 px-3 py-2 text-xs font-bold sm:flex-1"
           >
-            <FcGoogle className="-mt-0.5" />
+            <FcGoogle className="shrink-0" />
             Google দিয়ে চালিয়ে যান
           </button>
 
           <button
             type="button"
             onClick={handleGithubSignIn}
-            className="px-3 py-1.5 rounded-lg border border-gray-200 flex items-center gap-1 cursor-pointer"
+            className="flex w-full items-center justify-center gap-1 rounded-lg border border-gray-200 px-3 py-2 text-xs font-bold sm:flex-1"
           >
-            <FaGithub className="-mt-0.5" />
+            <FaGithub className="shrink-0" />
             GitHub দিয়ে চালিয়ে যান
           </button>
         </div>

@@ -187,22 +187,22 @@ function CategoryFallback() {
     <main className="container mx-auto space-y-6 p-4 sm:py-6">
       {/* Category Header Skeleton */}
       <section className="flex animate-pulse items-center gap-3 rounded-2xl bg-white p-5">
-        <div className="h-12 w-12 shrink-0 rounded-xl bg-gray-200" />
+        <div className="skeleton-shimmer h-12 w-12 shrink-0 rounded-xl bg-gray-200" />
 
         <div className="flex-1 space-y-3">
-          <div className="h-6 w-40 rounded-md bg-gray-200" />
-          <div className="h-4 w-64 max-w-full rounded-md bg-gray-200" />
+          <div className="skeleton-shimmer h-6 w-40 rounded-md bg-gray-200" />
+          <div className="skeleton-shimmer h-4 w-64 max-w-full rounded-md bg-gray-200" />
         </div>
       </section>
 
       {/* Sorting Dropdown Skeleton */}
       <div className="my-7 flex animate-pulse items-center justify-end gap-3 rounded-2xl bg-white p-5">
-        <div className="h-4 w-12 rounded bg-gray-200" />
-        <div className="h-10 w-36 rounded-lg bg-gray-200" />
+        <div className="skeleton-shimmer h-4 w-12 rounded bg-gray-200" />
+        <div className="skeleton-shimmer h-10 w-36 rounded-lg bg-gray-200" />
       </div>
 
       {/* Product Count Skeleton */}
-      <div className="h-4 w-48 animate-pulse rounded bg-gray-200" />
+      <div className="skeleton-shimmer h-4 w-48 animate-pulse rounded bg-gray-200" />
 
       {/* Product Cards Skeleton */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
