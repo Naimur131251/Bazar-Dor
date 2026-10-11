@@ -15,3 +15,97 @@ body{
   --color-error: #D03739;
   --color-success: #1A9951;
 }
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.skeleton-shimmer {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background: #e5e7eb;
+}
+
+.skeleton-shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.75),
+    transparent
+  );
+  animation: shimmer 1.5s infinite;
+}
+
+
+
+@keyframes glitch {
+          0%, 90%, 100% {
+            transform: translate(0);
+            text-shadow: none;
+          }
+          92% {
+            transform: translate(-2px, 1px);
+            text-shadow: 2px 0 #D03739;
+          }
+          94% {
+            transform: translate(2px, -1px);
+            text-shadow: -2px 0 #05893E;
+          }
+          96% {
+            transform: translate(0);
+          }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          *, *::before, *::after {
+            animation: none !important;
+            transition: none !important;
+          }
+        }
+
+
+
+.animated-gradient {
+  background: linear-gradient(
+  -45deg,
+  #dddddd,
+  #DDF1E4,
+  #05893E,
+  #DDF1E4,
+  #dddddd
+);
+  background-size: 400% 400%;
+  animation: gradientMove 8s ease infinite;
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animated-gradient {
+    animation: none;
+  }
+}
+

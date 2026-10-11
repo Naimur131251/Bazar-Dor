@@ -5,27 +5,32 @@ import Link from "next/link";
 
 function BannerFallback() {
   return (
-    <div className="my-6 flex animate-pulse flex-col gap-6 rounded-2xl bg-white p-4 sm:my-8 sm:p-6 lg:my-10 lg:flex-row lg:items-center lg:justify-between lg:p-5 lg:pl-8">
+    <div className="my-6 flex animate-pulse flex-col gap-6 overflow-hidden rounded-2xl bg-white p-4 sm:my-8 sm:p-6 lg:my-10 lg:flex-row lg:items-center lg:justify-between lg:gap-8 lg:p-5 lg:pl-8">
       {/* Banner Text Skeleton */}
       <div className="min-w-0 flex-1 space-y-5">
-        <div className="h-7 w-36 rounded-[14px] bg-gray-200" />
+        {/* Date */}
+        <div className="skeleton-shimmer h-7 w-36 animate-pulse rounded-[14px] bg-gray-200" />
 
+        {/* Heading */}
         <div className="space-y-3">
-          <div className="h-8 w-full max-w-lg rounded bg-gray-200 sm:h-9" />
-          <div className="h-8 w-3/4 max-w-md rounded bg-gray-200 sm:h-9" />
+          <div className="skeleton-shimmer h-8 w-full max-w-lg rounded-lg bg-gray-200 sm:h-9" />
+          <div className="skeleton-shimmer h-8 w-3/4 max-w-md rounded-lg bg-gray-200 sm:h-9" />
         </div>
 
+        {/* Description */}
         <div className="space-y-2">
-          <div className="h-4 w-full max-w-xl rounded bg-gray-200" />
-          <div className="h-4 w-5/6 max-w-lg rounded bg-gray-200" />
-          <div className="h-4 w-2/3 max-w-md rounded bg-gray-200" />
+          <div className="skeleton-shimmer h-4 w-full max-w-xl rounded bg-gray-200" />
+          <div className="skeleton-shimmer h-4 w-5/6 max-w-lg rounded bg-gray-200" />
+          <div className="skeleton-shimmer h-4 w-2/3 max-w-md rounded bg-gray-200" />
         </div>
 
-        <div className="h-10 w-32 rounded-lg bg-gray-200" />
+        {/* Button */}
+        <div className="skeleton-shimmer h-10 w-32 rounded-lg bg-gray-200" />
       </div>
 
       {/* Banner Image Skeleton */}
-      <div className="h-48 w-full shrink-0 rounded-xl bg-gray-200 sm:h-56 lg:w-78.75" />
+
+      <div className="skeleton-shimmer h-48 w-full shrink-0 rounded-xl sm:h-56 lg:w-78.75" />
     </div>
   );
 }

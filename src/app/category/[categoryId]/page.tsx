@@ -50,6 +50,11 @@ async function CategoryContent({ categoryId, sortBy }: ICategoryPage) {
     ? data
     : (data.products ?? data.data ?? []);
 
+  // Invalid category হলে 404
+  if (products.length === 0) {
+    notFound();
+  }
+
   const firstProduct = products[0];
 
   const sortedProducts = [...products];
@@ -204,26 +209,26 @@ function CategoryFallback() {
         {Array.from({ length: 6 }).map((_, index) => (
           <div
             key={index}
-            className="animate-pulse rounded-xl border border-gray-100 bg-white p-4"
+            className="rounded-xl border border-gray-100 bg-white p-4"
           >
             {/* Product Info */}
             <div className="flex items-center gap-3">
-              <div className="h-14 w-14 shrink-0 rounded-xl bg-gray-200" />
+              <div className="skeleton-shimmer h-14 w-14 shrink-0 rounded-xl bg-gray-200" />
 
               <div className="flex-1 space-y-3">
-                <div className="h-5 w-3/4 rounded bg-gray-200" />
-                <div className="h-4 w-1/2 rounded bg-gray-200" />
+                <div className="skeleton-shimmer h-5 w-3/4 rounded bg-gray-200" />
+                <div className="skeleton-shimmer h-4 w-1/2 rounded bg-gray-200" />
               </div>
             </div>
 
             {/* Price and Change */}
             <div className="mt-5 flex items-end justify-between gap-3">
               <div className="space-y-2">
-                <div className="h-4 w-20 rounded bg-gray-200" />
-                <div className="h-6 w-28 rounded bg-gray-200" />
+                <div className="skeleton-shimmer h-4 w-20 rounded bg-gray-200" />
+                <div className="skeleton-shimmer h-6 w-28 rounded bg-gray-200" />
               </div>
 
-              <div className="h-7 w-16 rounded-lg bg-gray-200" />
+              <div className="skeleton-shimmer h-7 w-16 rounded-lg bg-gray-200" />
             </div>
           </div>
         ))}
