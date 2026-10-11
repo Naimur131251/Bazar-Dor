@@ -1,12 +1,17 @@
 @import "tailwindcss";
 @import "@heroui/styles"; 
 
+html{
+  scroll-behavior: smooth;
+}
+
 body{
-    background-color: rgb(233, 235, 234);
+    background-color: #ddd;
 }
 
 @theme {
   --color-primary: #05893E;
   --color-base-content: #1D271F;
   --color-error: #D03739;
+  --color-success: #1A9951;
 }

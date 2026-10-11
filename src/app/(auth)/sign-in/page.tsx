@@ -91,7 +91,17 @@ export default function Basic() {
       </div>
 
       <div className="bg-white p-6 rounded-2xl space-y-4">
-        <TextField isRequired name="email" type="email">
+        <TextField
+          isRequired
+          name="email"
+          type="email"
+          validate={(value) => {
+            if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) {
+              return "Please enter a valid email address";
+            }
+            return null;
+          }}
+        >
           <Label>ইমেইল</Label>
           <Input
             className="border border-gray-200 rounded-lg"

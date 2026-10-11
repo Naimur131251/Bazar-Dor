@@ -17,7 +17,7 @@ const CurrentDate = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  return <span>{date}</span>;
+  return <span className="font-bold">{date}</span>;
 };
 
 export default CurrentDate;

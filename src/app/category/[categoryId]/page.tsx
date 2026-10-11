@@ -71,7 +71,7 @@ async function CategoryContent({ categoryId, sortBy }: ICategoryPage) {
   }
 
   return (
-    <main className="container mx-auto p-4 sm:p-6">
+    <main className="container mx-auto p-4 sm:py-6 lg:px-0">
       {/* Category Header */}
       <section className="flex items-center gap-3 rounded-2xl bg-white p-5">
         <div className="text-4xl">{firstProduct?.categoryIcon ?? "🛒"}</div>
@@ -111,7 +111,7 @@ async function CategoryContent({ categoryId, sortBy }: ICategoryPage) {
 
             return (
               <Link
-                href={`/productDetails/${product.id}`}
+                href={`/product/${product.id}`}
                 key={product.id}
                 className="rounded-xl border border-gray-100 bg-white p-4 transition-shadow hover:shadow-md"
               >
@@ -179,7 +179,7 @@ async function CategoryContent({ categoryId, sortBy }: ICategoryPage) {
 
 function CategoryFallback() {
   return (
-    <main className="container mx-auto space-y-6 p-4 sm:p-6">
+    <main className="container mx-auto space-y-6 p-4 sm:py-6">
       {/* Category Header Skeleton */}
       <section className="flex animate-pulse items-center gap-3 rounded-2xl bg-white p-5">
         <div className="h-12 w-12 shrink-0 rounded-xl bg-gray-200" />

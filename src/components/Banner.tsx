@@ -1,6 +1,7 @@
 import Image from "next/image";
 import CurrentDate from "./CurrentDate";
 import { Suspense } from "react";
+import Link from "next/link";
 
 function BannerFallback() {
   return (
@@ -34,7 +35,7 @@ const Banner = () => {
     <Suspense fallback={<BannerFallback />}>
       <div className="my-6 flex flex-col gap-6 rounded-2xl bg-white p-4 sm:my-8 sm:p-6 lg:my-10 lg:flex-row lg:items-center lg:justify-between lg:gap-8 lg:p-5 lg:pl-8">
         {/* Banner Text */}
-        <div className="min-w-0 flex-1 lg:mt-4">
+        <div className="min-w-0 flex-1">
           <span className="inline-block rounded-[14px] bg-[#c7fadd] px-3 py-1 text-sm text-primary">
             <CurrentDate />
           </span>
@@ -48,15 +49,12 @@ const Banner = () => {
             বিস্তারিত, গড়, সর্বনিম্ন-সর্বাধিক এবং দামের পরিবর্তন এক জায়গায়।
           </p>
 
-          <button
-            type="button"
-            // onClick={() => {
-            //   window.location.href = "/products";
-            // }}
+          <Link
+            href="#সব-পণ্য"
             className="cursor-pointer rounded-lg bg-primary px-5 py-2.5 text-white"
           >
             সব পণ্য দেখুন
-          </button>
+          </Link>
         </div>
 
         {/* Banner Image */}

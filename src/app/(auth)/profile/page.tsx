@@ -2,7 +2,7 @@
 
 import { authClient } from "@/lib/auth-client";
 import { useSession } from "@/lib/auth-client";
-import Image from "next/image";
+// import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { FiCornerDownLeft } from "react-icons/fi";
@@ -114,7 +114,7 @@ const ProfilePage = () => {
   const avatarUrl = user.image;
 
   return (
-    <div className="mx-auto mt-10 w-full max-w-175 space-y-6 p-5">
+    <div className="container mx-auto mt-5 w-full max-w-175 space-y-5 px-4 pb-8 sm:mt-8 sm:space-y-6 sm:px-6 lg:mt-10">
       {/* Page heading */}
       <div className="mb-6">
         <h1 className="mb-1 text-2xl font-bold text-[#111111]">
@@ -127,46 +127,61 @@ const ProfilePage = () => {
       </div>
 
       {/* Profile card */}
-      <div className="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-[#eaeaea] bg-white p-6 shadow-sm">
-        <div className="flex min-w-0 items-center gap-4">
+      <div className="flex flex-col gap-4 rounded-xl border border-[#eaeaea] bg-white p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:p-6">
+        <div className="flex min-w-0 items-center gap-3 sm:gap-4">
           {avatarUrl ? (
-            <Image
-              className="h-18 w-18 shrink-0 rounded-xl bg-gray-200 object-cover"
-              src={avatarUrl}
-              alt={user.name || "Profile"}
-              width={72}
-              height={72}
-              onError={(e) => {
-                e.currentTarget.style.display = "none";
-              }}
-            />
-          ) : (
-            <div className="flex h-18 w-18 shrink-0 items-center justify-center rounded-xl bg-[#e8f5ed] text-2xl font-bold text-[#058240]">
-              {user.name?.trim().charAt(0).toUpperCase() || "U"}
-            </div>
-          )}
+            <>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                className="h-16 w-16 shrink-0 rounded-xl bg-gray-200 object-cover sm:h-18 sm:w-18"
+                src={avatarUrl}
+                alt={user.name || "Profile"}
+                width={72}
+                height={72}
+                referrerPolicy="no-referrer"
+                onError={(e) => {
+                  e.currentTarget.style.display = "none";
+
+                  const fallback = e.currentTarget.nextElementSibling;
+                  if (fallback instanceof HTMLElement) {
+                    fallback.style.display = "flex";
+                  }
+                }}
+              />
+            </>
+          ) : null}
+
+          <div
+            className="h-16 w-16 shrink-0 items-center justify-center rounded-xl bg-[#e8f5ed] text-2xl font-bold text-[#058240] sm:h-18 sm:w-18"
+            style={{ display: avatarUrl ? "none" : "flex" }}
+          >
+            {user.name?.trim().charAt(0).toUpperCase() || "U"}
+          </div>
 
           <div className="min-w-0">
-            <h2 className="wrap-break-word text-lg font-semibold text-[#111111]">
+            <h2 className="wrap-break-words text-base font-semibold text-[#111111] sm:text-lg">
               {user.name || "ব্যবহারকারী"}
             </h2>
 
-            <p className="break-all text-sm text-gray-500">{user.email}</p>
+            <p className="break-all text-xs text-gray-500 sm:text-sm">
+              {user.email}
+            </p>
           </div>
         </div>
+
         <button
           type="button"
           onClick={handleSignOut}
           disabled={isSigningOut}
-          className="inline-flex items-center gap-2 rounded-lg border border-[#dc3545] px-4 py-2 text-sm font-medium text-[#dc3545] transition hover:bg-[#fff5f5] disabled:cursor-not-allowed disabled:opacity-60"
+          className="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-[#dc3545] px-4 py-3 text-sm font-medium text-[#dc3545] transition hover:bg-[#fff5f5] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto sm:py-2"
         >
           <FiCornerDownLeft />
           {isSigningOut ? "সাইন আউট হচ্ছে..." : "সাইন আউট"}
-        </button>{" "}
+        </button>
       </div>
 
       {/* Profile update form */}
-      <div className="rounded-xl border border-[#eaeaea] bg-white px-5 py-6 shadow-sm sm:px-8">
+      <div className="rounded-xl border border-[#eaeaea] bg-white px-4 py-5 shadow-sm sm:px-6 sm:py-6 lg:px-8">
         <h3 className="mb-5 text-base font-semibold text-[#111111]">
           তথ্য আপডেট করুন
         </h3>
@@ -218,7 +233,7 @@ const ProfilePage = () => {
             disabled={isUpdating}
             className="flex h-12 w-full items-center justify-center rounded-lg bg-[#058240] text-base font-medium text-white shadow-sm transition hover:bg-[#046c35] disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {isUpdating ? "আপডেট হচ্ছে..." : "আপডেট করুন"}
+            {isUpdating ? "আপডেট হচ্ছে..." : "আপডেট"}
           </button>
         </form>
       </div>

@@ -58,7 +58,7 @@ const MarqueeContent = async () => {
         return (
           <Link
             className="mr-9 flex gap-2 items-center"
-            href={`/productDetails/${h.id}`}
+            href={`/product/${h.id}`}
             key={h.id}
           >
             <span>{h.image}</span>
@@ -73,7 +73,7 @@ const MarqueeContent = async () => {
                   ? "🔻"
                   : "—"}
             </span>
-            <span>{toBanglaNumber(h.change.pct)}%</span>
+            <span className="text-primary">{toBanglaNumber(h.change.pct)}%</span>
           </Link>
         );
       })}
