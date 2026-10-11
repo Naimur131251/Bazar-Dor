@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+// import Image from "next/image";
 import Link from "next/link";
 import { signOut, useSession } from "@/lib/auth-client";
 import { useState } from "react";
@@ -54,12 +54,23 @@ const AuthControls = () => {
         >
           <span className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-neutral-200 bg-primary text-sm font-semibold uppercase text-white">
             {session.user.image ? (
-              <Image
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
                 src={session.user.image}
                 alt={session.user.name || "Profile"}
                 width={36}
                 height={36}
-                className="h-full w-full object-cover"
+                className="h-9 w-9 shrink-0 rounded-lg object-cover"
+                referrerPolicy="no-referrer"
+                onError={(e) => {
+                  e.currentTarget.style.display = "none";
+
+                  const fallback = e.currentTarget.nextElementSibling;
+
+                  if (fallback instanceof HTMLElement) {
+                    fallback.style.display = "flex";
+                  }
+                }}
               />
             ) : (
               session.user.name?.trim().charAt(0) || "U"

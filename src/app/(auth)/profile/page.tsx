@@ -1,8 +1,7 @@
+
 "use client";
 
-import { authClient } from "@/lib/auth-client";
-import { useSession } from "@/lib/auth-client";
-// import Image from "next/image";
+import { authClient, useSession } from "@/lib/auth-client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { FiCornerDownLeft } from "react-icons/fi";
@@ -10,14 +9,14 @@ import { toast } from "react-toastify";
 
 const ProfilePage = () => {
   const router = useRouter();
+
   const [isSigningOut, setIsSigningOut] = useState(false);
-
-  const { data: session, isPending } = useSession();
-
+  const [isUpdating, setIsUpdating] = useState(false);
   const [inputName, setInputName] = useState("");
   const [inputAvatar, setInputAvatar] = useState("");
-  const [isUpdating, setIsUpdating] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
+  const { data: session, isPending } = useSession();
   const user = session?.user;
 
   const handleUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -28,10 +27,7 @@ const ProfilePage = () => {
       return;
     }
 
-    const updates: {
-      name?: string;
-      image?: string;
-    } = {};
+    const updates: { name?: string; image?: string } = {};
 
     if (inputName.trim()) {
       updates.name = inputName.trim();
@@ -41,7 +37,10 @@ const ProfilePage = () => {
       try {
         const imageUrl = new URL(inputAvatar.trim());
 
-        if (imageUrl.protocol !== "https:" && imageUrl.protocol !== "http:") {
+        if (
+          imageUrl.protocol !== "https:" &&
+          imageUrl.protocol !== "http:"
+        ) {
           toast.error("সঠিক ছবির URL দিন।");
           return;
         }
@@ -63,10 +62,11 @@ const ProfilePage = () => {
         return;
       }
 
-      await authClient.getSession();
-
+      setImageError(false);
       setInputName("");
       setInputAvatar("");
+
+      await authClient.getSession();
 
       toast.success("প্রোফাইল সফলভাবে আপডেট হয়েছে!");
     } catch (error) {
@@ -112,6 +112,7 @@ const ProfilePage = () => {
   }
 
   const avatarUrl = user.image;
+  const showAvatar = Boolean(avatarUrl) && !imageError;
 
   return (
     <div className="container mx-auto mt-5 w-full max-w-175 space-y-5 px-4 pb-8 sm:mt-8 sm:space-y-6 sm:px-6 lg:mt-10">
@@ -129,34 +130,24 @@ const ProfilePage = () => {
       {/* Profile card */}
       <div className="flex flex-col gap-4 rounded-xl border border-[#eaeaea] bg-white p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:p-6">
         <div className="flex min-w-0 items-center gap-3 sm:gap-4">
-          {avatarUrl ? (
-            <>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                className="h-16 w-16 shrink-0 rounded-xl bg-gray-200 object-cover sm:h-18 sm:w-18"
-                src={avatarUrl}
-                alt={user.name || "Profile"}
-                width={72}
-                height={72}
-                referrerPolicy="no-referrer"
-                onError={(e) => {
-                  e.currentTarget.style.display = "none";
+          {showAvatar && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              className="h-16 w-16 shrink-0 rounded-xl bg-gray-200 object-cover sm:h-18 sm:w-18"
+              src={avatarUrl!}
+              alt={user.name || "Profile"}
+              width={72}
+              height={72}
+              referrerPolicy="no-referrer"
+              onError={() => setImageError(true)}
+            />
+          )}
 
-                  const fallback = e.currentTarget.nextElementSibling;
-                  if (fallback instanceof HTMLElement) {
-                    fallback.style.display = "flex";
-                  }
-                }}
-              />
-            </>
-          ) : null}
-
-          <div
-            className="h-16 w-16 shrink-0 items-center justify-center rounded-xl bg-[#e8f5ed] text-2xl font-bold text-[#058240] sm:h-18 sm:w-18"
-            style={{ display: avatarUrl ? "none" : "flex" }}
-          >
-            {user.name?.trim().charAt(0).toUpperCase() || "U"}
-          </div>
+          {!showAvatar && (
+            <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl bg-[#e8f5ed] text-2xl font-bold text-[#058240] sm:h-18 sm:w-18">
+              {user.name?.trim().charAt(0).toUpperCase() || "U"}
+            </div>
+          )}
 
           <div className="min-w-0">
             <h2 className="wrap-break-words text-base font-semibold text-[#111111] sm:text-lg">
