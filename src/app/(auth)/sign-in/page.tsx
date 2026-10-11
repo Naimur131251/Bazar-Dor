@@ -156,7 +156,7 @@ export default function Basic() {
           <button
             type="button"
             onClick={handleGoogleSignIn}
-            className="flex w-full items-center justify-center gap-1 rounded-lg border border-gray-200 px-3 py-2 text-xs font-bold sm:flex-1"
+            className="flex w-full items-center justify-center gap-1 rounded-lg border border-gray-200 px-3 py-2 text-xs font-bold sm:flex-1 cursor-pointer"
           >
             <FcGoogle className="shrink-0" />
             Google দিয়ে চালিয়ে যান
@@ -165,7 +165,7 @@ export default function Basic() {
           <button
             type="button"
             onClick={handleGithubSignIn}
-            className="flex w-full items-center justify-center gap-1 rounded-lg border border-gray-200 px-3 py-2 text-xs font-bold sm:flex-1"
+            className="flex w-full items-center justify-center gap-1 rounded-lg border border-gray-200 px-3 py-2 text-xs font-bold sm:flex-1 cursor-pointer"
           >
             <FaGithub className="shrink-0" />
             GitHub দিয়ে চালিয়ে যান

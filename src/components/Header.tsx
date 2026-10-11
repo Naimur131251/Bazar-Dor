@@ -46,13 +46,13 @@ const Header = () => {
           {/* Logo and Website Name */}
           <div className="flex min-w-0 items-center gap-2 sm:gap-3">
             <Link href="/" className="shrink-0">
-              <div className="flex items-center justify-center overflow-hidden rounded-xl bg-primary p-2">
+              <div className="flex items-center justify-center overflow-hidden rounded-xl bg-primary p-2.5">
                 <Image
                   src="/logo-icon.png"
                   alt="বাজার দর লোগো"
-                  width={32}
-                  height={32}
-                  className="object-contain"
+                  width={25}
+                  height={25}
+                  className="object-contain brightness-0 invert"
                 />
               </div>
             </Link>
